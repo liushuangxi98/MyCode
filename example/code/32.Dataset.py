@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2023/6/3 19:00
 # @Author  : 刘双喜
-# @File    : 32.dataset.py
+# @File    : 32.Dataset.py
 # @Description : Dataset类演示
 from torch.utils.data import Dataset, ConcatDataset
 import os
