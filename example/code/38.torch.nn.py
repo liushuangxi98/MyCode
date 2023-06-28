@@ -15,6 +15,6 @@ class Demo(nn.Module):
     def forward(self, input):
         return input + 1
 
-obj = Demo()
+demo1 = Demo()
 a = torch.tensor(1)
-print(obj(a))
+print(demo1(a))

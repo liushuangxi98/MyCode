@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2023/6/24 22:01
 # @Author  : 刘双喜
-# @File    : functional.py
+# @File    : 39.functional_conv.py
 # @Description : 添加描述
 import torch
 from torch.nn import functional as F
