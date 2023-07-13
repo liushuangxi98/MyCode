@@ -21,7 +21,7 @@ class Demo(nn.Module):
             Conv2d(32, 64, 5, padding=2),
             MaxPool2d(2),
             Flatten(),
-            Linear(1024, 64),
+            Linear(64*4*4, 64),
             Linear(64, 10),
         )
 
