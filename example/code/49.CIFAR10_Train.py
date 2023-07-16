@@ -34,8 +34,11 @@ class Demo(nn.Module):
 
 # =======================================================全局变量=====================================================
 cuda_avaiable = torch.cuda.is_available()  # GPU是否可用
-demo = Demo().cuda() if cuda_avaiable else Demo()   # 创建模型
-loss_fn = nn.CrossEntropyLoss().cuda() if cuda_avaiable else nn.CrossEntropyLoss()  # 损失函数
+device = torch.device('cuda' if cuda_avaiable else 'cpu')
+demo = Demo()
+demo.to(device)  # 创建模型
+loss_fn = nn.CrossEntropyLoss()  # 损失函数
+loss_fn.to(device)
 # 优化器
 learn_rate = 1e-2
 optim = torch.optim.SGD(demo.parameters(), lr=learn_rate)
@@ -65,9 +68,8 @@ for epoch in range(1, 1 + epochs):
     epochs_train_loss = 0  # 批次训练集总损失
     for data in train_loader:
         imgs, labels = data
-        if cuda_avaiable:
-            imgs = imgs.cuda()
-            labels = labels.cuda()
+        imgs = imgs.to(device)
+        labels = labels.to(device)
         # 卷积层 - 处理特征
         outputs = demo(imgs)
         # 损失函数层 - 计算损失
@@ -91,9 +93,8 @@ for epoch in range(1, 1 + epochs):
     with torch.no_grad():
         for data in test_loader:
             imgs, labels = data
-            if cuda_avaiable:
-                imgs = imgs.cuda()
-                labels = labels.cuda()
+            imgs = imgs.to(device)
+            labels = labels.to(device)
             outputs = demo(imgs)
             # 计算测试集损失
             loss = loss_fn(outputs, labels)
