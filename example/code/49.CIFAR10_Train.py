@@ -4,6 +4,7 @@
 # @Author  : 刘双喜
 # @File    : 49.CIFAR10_Train.py
 # @Description : 添加描述
+import time
 import torch.optim
 import torchvision
 from torch import nn
@@ -12,6 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.nn import Conv2d, MaxPool2d, Flatten, Linear, Sequential
 
 
+# 模型
 class Demo(nn.Module):
     def __init__(self):
         super(Demo, self).__init__()
@@ -30,6 +32,20 @@ class Demo(nn.Module):
     def forward(self, x):
         return self.module1(x)
 
+# =======================================================全局变量=====================================================
+cuda_avaiable = torch.cuda.is_available()  # GPU是否可用
+demo = Demo().cuda() if cuda_avaiable else Demo()   # 创建模型
+loss_fn = nn.CrossEntropyLoss().cuda() if cuda_avaiable else nn.CrossEntropyLoss()  # 损失函数
+# 优化器
+learn_rate = 1e-2
+optim = torch.optim.SGD(demo.parameters(), lr=learn_rate)
+# 训练次数
+epochs = 2
+total_train_step = 0
+# 画板 tensorboard --logdir='.\\example\\data\\40.nn_Conv2d' --port=6012
+write = SummaryWriter('..\\data\\49.CIFAR10_Train')
+
+#  ======================================================获取数据集合===================================================
 train_data = torchvision.datasets.CIFAR10('../../dataset/36.datasets', train=True,
                                          transform=torchvision.transforms.ToTensor(),
                                          download=True)
@@ -37,31 +53,21 @@ test_data = torchvision.datasets.CIFAR10('../../dataset/36.datasets', train=Fals
                                          transform=torchvision.transforms.ToTensor(),
                                          download=True)
 
-write = SummaryWriter('..\\data\\49.CIFAR10_Train')
-# tensorboard --logdir='.\\example\\data\\40.nn_Conv2d' --port=6012
 train_loader = DataLoader(dataset=train_data, batch_size=64, shuffle=False)
 test_loader = DataLoader(dataset=test_data, batch_size=64, shuffle=False)
-
 train_data_len = len(train_data)
 test_data_len = len(test_data)
 
-demo = Demo()
-
-# 计算损失
-loss_fn = nn.CrossEntropyLoss()
-
-# 优化器
-learn_rate = 1e-2
-optim = torch.optim.SGD(demo.parameters(), lr=learn_rate)
-
-# 训练次数
-epochs = 3
-total_train_step = 0
-for epoch in range(epochs):
+#  =====================================================开始训练====================================================
+for epoch in range(1, 1 + epochs):
     print(f'第{epoch}轮训练'.center(50, '-'))
-    epochs_train_loss = 0
+    start_time = time.time()
+    epochs_train_loss = 0  # 批次训练集总损失
     for data in train_loader:
         imgs, labels = data
+        if cuda_avaiable:
+            imgs = imgs.cuda()
+            labels = labels.cuda()
         # 卷积层 - 处理特征
         outputs = demo(imgs)
         # 损失函数层 - 计算损失
@@ -70,23 +76,35 @@ for epoch in range(epochs):
         optim.zero_grad()
         loss.backward()
         optim.step()
+        # 累加损失
         epochs_train_loss += loss.item()
         total_train_step += 1
         if total_train_step % 100 == 0:
-            print(f'第{total_train_step}次训练，损失：{loss.item()},进度{round((total_train_step/(len(train_loader)*epochs))*100, 4)}%'.center(50, '-'))
             write.add_scalar('train_loss', loss.item(), total_train_step)
+    print(f'第{epoch}批次训练，损失：{loss.item()},耗时{time.time()-start_time},进度{round(epoch/epochs, 4) * 100}%'.center(
+            50, '-'))
+
     # 测试集测试
-    total_test_loss = 0
+    start_time = time.time()
+    total_test_loss = 0  # 批次测试集总损失
+    right_num = 0   # 正确个数
     with torch.no_grad():
         for data in test_loader:
             imgs, labels = data
+            if cuda_avaiable:
+                imgs = imgs.cuda()
+                labels = labels.cuda()
             outputs = demo(imgs)
+            # 计算测试集损失
             loss = loss_fn(outputs, labels)
             total_test_loss += loss.item()
-    print(f'测试集损失{total_test_loss}'.center(50, '-'))
+            # 测试集预测值
+            predict = outputs.argmax(dim=1)
+            # 预测正确的个数 累加
+            right_num += (predict == labels).sum()
+    right_rate = right_num / test_data_len
+    print(f'第{epoch}批次测试，损失{total_test_loss}, 正确率{right_rate},耗时{time.time()-start_time}'.center(50, '-'))
     write.add_scalar('test_loss', total_test_loss, epochs)
 
     torch.save(demo.state_dict(), f'..\\data\\49.CIFAR10_Train\\module_epoch{epoch}')
 write.close()
-
-argmax
