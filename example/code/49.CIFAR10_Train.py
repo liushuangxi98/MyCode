@@ -90,7 +90,7 @@ for epoch in range(1, 1 + epochs):
     start_time = time.time()
     total_test_loss = 0  # 批次测试集总损失
     right_num = 0   # 正确个数
-    with torch.no_grad():
+    with torch.no_grad():  # 测试的时候进入没有梯度计算模式，节省内存消耗并加快计算速度
         for data in test_loader:
             imgs, labels = data
             imgs = imgs.to(device)
