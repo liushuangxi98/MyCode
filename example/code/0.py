@@ -1,8 +1,7 @@
-class A:
-    def __init__(self):
-        pass
+def fun(num, ls=[]):
+    for i in range(num):
+        ls.append(i)
+    print(ls)
 
-    def __del__(self):
-        print('del')
-
-a = A()
+fun(2)
+fun(1)
