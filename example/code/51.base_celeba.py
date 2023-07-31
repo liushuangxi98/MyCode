@@ -17,13 +17,20 @@ from torch.nn import Conv2d, MaxPool2d, Flatten, Linear, Sequential
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.feature_process = Sequential([])
+        self.feature_process = Sequential(Conv2d(3, 64, 1))
 
-    def forword(self, x):
+    def forward(self, x):
         return self.feature_process(x)
 
-cuda_avaiable = torch.cuda.is_available()  # GPU是否可用
-device = torch.device('cuda' if cuda_avaiable else 'cpu')
+
+dataset_path = r'E:\file\python\MyCode\dataset\51.datasets'
+train_data = torchvision.datasets.CelebA(root=dataset_path, split='train',target_type='attr',transform=None, download=False)
+test_data = torchvision.datasets.CelebA(root=dataset_path, split='test',target_type='attr',transform=None, download=False)
+train_loader = DataLoader(dataset=train_data, batch_size=100, shuffle=False)
+test_loader = DataLoader(dataset=test_data, batch_size=100, shuffle=False)
+
+cuda_available = torch.cuda.is_available()  # GPU是否可用
+device = torch.device('cuda' if cuda_available else 'cpu')
 
 demo = Model()
 demo.to(device)  # 创建模型
@@ -40,11 +47,6 @@ total_train_step = 0
 # 画板 tensorboard --logdir='.\\example\\data\\40.nn_Conv2d' --port=6012
 write = SummaryWriter('..\\data\\51.base_celeba')
 
-dataset_path = r'D:\file\python\MyCode\dataset\51.datasets'
-train_data = torchvision.datasets.CelebA(root=dataset_path, split='train',target_type='attr',transform=None, download=False)
-test_data = torchvision.datasets.CelebA(root=dataset_path, split='test',target_type='attr',transform=None, download=False)
-train_loader = DataLoader(dataset=train_data, batch_size=100, shuffle=False)
-test_loader = DataLoader(dataset=test_data, batch_size=100, shuffle=False)
 
 for epoch in range(1, 1 + epochs):
     print(f'第{epoch}轮训练'.center(50, '-'))

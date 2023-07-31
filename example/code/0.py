@@ -1,7 +1,3 @@
-def fun(num, ls=[]):
-    for i in range(num):
-        ls.append(i)
-    print(ls)
+import torch
 
-fun(2)
-fun(1)
+print(torch.cuda.is_available() )
