@@ -1,72 +1,34 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2023/7/22 14:18
-# @Author  : 刘双喜
-# @File    : 51.base_celeba.py
-# @Description : 添加描述
-import torchvision
-import matplotlib.pyplot as plt
-import time
-import torch.optim
-import torchvision
-from torch import nn
-from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
-from torch.nn import Conv2d, MaxPool2d, Flatten, Linear, Sequential
+import torch
+import torch.nn as nn
 
-class Model(nn.Module):
+# 定义模型
+class MyModel(nn.Module):
     def __init__(self):
-        super(Model, self).__init__()
-        self.feature_process = Sequential(Conv2d(3, 64, 1))
+        super(MyModel, self).__init__()
+        self.fc = nn.Linear(10, 1)
 
     def forward(self, x):
-        return self.feature_process(x)
+        x = self.fc(x)
+        return x
 
+# 创建模型实例
+model = MyModel()
 
-dataset_path = r'E:\file\python\MyCode\dataset\51.datasets'
-train_data = torchvision.datasets.CelebA(root=dataset_path, split='train',target_type='attr',transform=None, download=False)
-test_data = torchvision.datasets.CelebA(root=dataset_path, split='test',target_type='attr',transform=None, download=False)
-train_loader = DataLoader(dataset=train_data, batch_size=100, shuffle=False)
-test_loader = DataLoader(dataset=test_data, batch_size=100, shuffle=False)
+# 定义损失函数
+criterion = nn.BCEWithLogitsLoss()
 
-cuda_available = torch.cuda.is_available()  # GPU是否可用
-device = torch.device('cuda' if cuda_available else 'cpu')
+# 定义优化器
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
 
-demo = Model()
-demo.to(device)  # 创建模型
+# 模拟数据
+data = torch.randn(4, 10)
+target = torch.empty(4).random_(2).unsqueeze(1) # 调整目标张量的形状
 
-loss_fn = nn.CrossEntropyLoss()  # 损失函数
-loss_fn.to(device)
-# 优化器
-learn_rate = 1e-2
-optim = torch.optim.SGD(demo.parameters(), lr=learn_rate)
-# 训练次数
-epochs = 2
-total_train_step = 0
+# 计算损失
+output = model(data)
+loss = criterion(output, target)
 
-# 画板 tensorboard --logdir='.\\example\\data\\40.nn_Conv2d' --port=6012
-write = SummaryWriter('..\\data\\51.base_celeba')
-
-
-for epoch in range(1, 1 + epochs):
-    print(f'第{epoch}轮训练'.center(50, '-'))
-    start_time = time.time()
-    epochs_train_loss = 0  # 批次训练集总损失
-    for data in train_loader:
-        imgs, labels = data
-        imgs = imgs.to(device)
-        labels = labels.to(device)
-        # 卷积层 - 处理特征
-        outputs = demo(imgs)
-        # 损失函数层 - 计算损失
-        loss = loss_fn(outputs, labels)
-        # 优化器 - 算法优化参数
-        optim.zero_grad()
-        loss.backward()
-        optim.step()
-        # 累加损失
-        epochs_train_loss += loss.item()
-        total_train_step += 1
-        if total_train_step % 100 == 0:
-            print(total_train_step,epochs_train_loss)
-            epochs_train_loss = 0
+# 反向传播和优化
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()
