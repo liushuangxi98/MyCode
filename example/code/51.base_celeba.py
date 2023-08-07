@@ -39,7 +39,10 @@ test_loader = DataLoader(dataset=test_data, batch_size=100, shuffle=False)
 # 全局变量
 cuda_available = torch.cuda.is_available()  # GPU是否可用
 device = torch.device('cuda' if cuda_available else 'cpu')
-# 创建模型
+
+# 实例化模型
+train = True  # 是否训练
+test = True  # 是否测试
 demo = Model()
 demo.to(device)
 # 损失函数
@@ -54,47 +57,54 @@ write = SummaryWriter('..\\data\\51.base_celeba')
 # 开始训练
 total_train_step, epochs = 0, 10
 for epoch in range(1, 1 + epochs):
-    print(f'第{epoch}轮训练'.center(50, '-'))
-    epochs_train_loss = 0  # 批次训练集总损失
-    for data in train_loader:
-        imgs, labels = data
-        imgs = imgs.to(device)
-        labels = labels.float()
-        labels = labels.to(device)
-        # 卷积层 - 处理特征
-        outputs = demo(imgs)
-
-        # 损失函数层 - 计算损失
-        loss = loss_fn(outputs, labels)
-
-        # 优化器 - 算法优化参数
-        optim.zero_grad()
-        loss.backward()
-        optim.step()
-        # 累加损失
-        epochs_train_loss += loss.item()
-        total_train_step += 1
-
-        if total_train_step % 100 == 0:
-            write.add_scalar('train_loss', loss.item(), total_train_step)
-    print(f'第{epoch}轮训练完成，总损失{epochs_train_loss}')
-
-    torch.save(demo.state_dict(), f'..\\data\\51.base_celeba\\CelebA_module_epoch{epoch}')
-
-    epochs_test_loss, correct_rate_ls = 0, []  # 批次训练集总损失
-    with torch.no_grad():  # 测试的时候进入没有梯度计算模式，节省内存消耗并加快计算速度
-        for data in test_loader:
+    if train:
+        print(f'第{epoch}轮训练'.center(50, '-'))
+        epochs_train_loss = 0  # 批次训练集总损失
+        for data in train_loader:
             imgs, labels = data
             imgs = imgs.to(device)
-            labels = labels.to(device)
             labels = labels.float()
+            labels = labels.to(device)
+            # 卷积层 - 处理特征
             outputs = demo(imgs)
-            # 计算测试集损失
+
+            # 损失函数层 - 计算损失
             loss = loss_fn(outputs, labels)
-            epochs_test_loss += loss.item()
-            # 计算正确率
-            correct_rate = ComDataFun.model_eval(torch.round(outputs).int(), labels, 'precision')
-            correct_rate_ls.append(correct_rate)
-    print(f'epoch{epoch}正确率', sum(correct_rate_ls)/len(correct_rate_ls))
-    print(f'第{epoch}批次测试，损失{epochs_test_loss}')
-    write.add_scalar('test_loss', epochs_test_loss, epochs)
+
+            # 优化器 - 算法优化参数
+            optim.zero_grad()
+            loss.backward()
+            optim.step()
+            # 累加损失
+            epochs_train_loss += loss.item()
+            total_train_step += 1
+
+            if total_train_step % 100 == 0:
+                write.add_scalar('train_loss', loss.item(), total_train_step)
+
+        torch.save(demo.state_dict(), f'..\\data\\51.base_celeba\\CelebA_module_epoch{epoch}')
+        print(f'第{epoch}轮训练完成，总损失{epochs_train_loss}')
+    if test:
+        print(f'第{epoch}轮测试'.center(50, '-'))
+        # 再加载
+        demo.load_state_dict(torch.load(f'..\\data\\51.base_celeba\\CelebA_module_epoch{epoch}', map_location=torch.device('cuda')))
+        epochs_test_loss, precision_rate_ls, recall_rate_ls = 0, [], []  # 批次训练集总损失
+        with torch.no_grad():  # 测试的时候进入没有梯度计算模式，节省内存消耗并加快计算速度
+            for data in test_loader:
+                imgs, labels = data
+                imgs = imgs.to(device)
+                labels = labels.to(device)
+                labels = labels.float()
+                outputs = demo(imgs)
+                # 计算测试集损失
+                loss = loss_fn(outputs, labels)
+                epochs_test_loss += loss.item()
+                # 计算正确率
+                precision_rate = ComDataFun.model_eval(torch.round(outputs).int(), labels, 'precision')
+                precision_rate_ls.append(precision_rate)
+                recall_rate = ComDataFun.model_eval(torch.round(outputs).int(), labels, 'recall')
+                recall_rate_ls.append(recall_rate)
+        print(f'epoch{epoch}精确率', sum(precision_rate_ls)/len(precision_rate_ls))
+        print(f'epoch{epoch}召回率', sum(recall_rate_ls)/len(recall_rate_ls))
+        print(f'第{epoch}批次测试，损失{epochs_test_loss}')
+        write.add_scalar('test_loss', epochs_test_loss, epochs)
