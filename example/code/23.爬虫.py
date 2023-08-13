@@ -36,7 +36,7 @@ import os
 import time
 import requests
 
-count = 5
+count = 10
 save_path = '..\\data\\23.爬虫'
 url_ls = []
 # url_ls.append('https://image.baidu.com/search/index?tn=baiduimage&ct=201326592&lm=-1&cl=2&ie=gb18030&word=%B1%ED%C7%E9%B0%FC&fr=ala&ala=1&alatpl=normal&pos=0&dyTabStr=MTEsMCwzLDYsMSw1LDQsMiw3LDgsOQ%3D%3D')
@@ -53,8 +53,9 @@ url_ls = []
 # 王者容易
 # url_ls.append('https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1685166445706_R&pv=&ic=&nc=1&z=&hd=&latest=&copyright=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&dyTabStr=MTEsMCwzLDIsNCwxLDYsNSw3LDgsOQ%3D%3D&ie=utf-8&sid=&word=%E8%A1%A8%E6%83%85%E5%8C%85%E7%8E%8B%E8%80%85%E8%8D%A3%E8%80%80&f=3&oq=%E8%A1%A8%E6%83%85%E5%8C%85%E7%8E%8B%E8%80%85&rsp=0')
 # 上班搞怪
-url = 'https://image.baidu.com/search/index?tn=baiduimage&ct=201326592&lm=-1&cl=2&ie=gb18030&word=%C3%F7%D0%C7%D5%D5%C6%AC&fr=ala&ala=1&alatpl=normal&pos=0&dyTabStr=MCw2LDMsMiwxLDQsNSwsNyw4LDk%3D'
+url = 'https://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1691843002395_R&pv=&ic=undefined&nc=1&z=0&hd=undefined&latest=undefined&copyright=undefined&se=1&showtab=0&fb=0&width=undefined&height=undefined&face=0&istype=2&dyTabStr=MTEsMCw1LDEsNiw0LDMsMiw3LDgsOQ%3D%3D&ie=utf-8&sid=&word=%E5%85%89%E5%A4%B4%E7%94%B7%E6%BC%94%E5%91%98'
 url_ls.append(url)
+
 
 def get_img(url_ls):
     for url in url_ls:
@@ -84,5 +85,13 @@ def get_img(url_ls):
             except:
                 print('error')
 
+def rename(path):
+    for i in os.listdir(path):
+        try:
+            os.rename(os.path.join(path,i), os.path.join(path,i.replace('image_', 'image4_')))
+        except:
+            print()
+
 if __name__ == '__main__':
-    get_img(url_ls)
+    # get_img(url_ls)
+    rename(save_path)
