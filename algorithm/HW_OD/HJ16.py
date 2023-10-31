@@ -42,11 +42,11 @@ for use_money in range(1 + total_money):
         v1, v2, v3 = main_sub_value[goods-1]
         dp[use_money][goods] = dp[use_money][goods - 1]
         if use_money >= p1:
-            dp[use_money][goods] = max(dp[use_money][goods - 1], dp[use_money][goods - 1] + v1)
+            dp[use_money][goods] = max(dp[use_money][goods], dp[use_money][goods - 1] + v1)
         if use_money >= p1 + p2:
-            dp[use_money][goods] = max(dp[use_money][goods - 1], dp[use_money][goods - 1] + v1+v2)
+            dp[use_money][goods] = max(dp[use_money][goods], dp[use_money][goods - 1] + v1+v2)
         if use_money >= p1 + p3:
-            dp[use_money][goods] = max(dp[use_money][goods - 1], dp[use_money][goods - 1] + v1+v3)
+            dp[use_money][goods] = max(dp[use_money][goods], dp[use_money][goods - 1] + v1+v3)
         if use_money >= p1 + p2+p3:
-            dp[use_money][goods] = max(dp[use_money][goods - 1], dp[use_money][goods - 1] + v1+v2+v3)
+            dp[use_money][goods] = max(dp[use_money][goods], dp[use_money][goods - 1] + v1+v2+v3)
 print()
