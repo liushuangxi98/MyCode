@@ -1,8 +1,4 @@
-while 1:
-    try:
-        s = [int(input()) for i in range(int(input()))]
-        s.sort()
-        for i in s:
-            print(i)
-    except:
-        break
+import bisect
+
+a = bisect.bisect_right([1, 3, 4, 5, 9, 55], 4)
+print(a)
