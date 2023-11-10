@@ -7,7 +7,27 @@
 
 
 def fun():
-    pass
+    def is_prime(num):
+        if num == 1:
+            return False
+        if num <= 3:
+            return True
+        for i in range(3, int(num ** 0.5)+1):
+            if num % i == 0:
+                return False
+        return True
 
+    n = int(input())
+    if n == 4:
+        print(2)
+        print(2)
+        exit()
+    for i in range(n//2, n+1, 1):
+        if i % 2 == 0:
+            continue
+        if is_prime(i) and is_prime(n - i):
+            break
+    print(n - i)
+    print(i)
 
 fun()
