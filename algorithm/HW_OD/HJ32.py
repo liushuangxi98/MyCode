@@ -103,5 +103,41 @@ def fun_3():
     print(max(ls))
     return
 
+def fun_4():
+    s = input()
+    if len(s) == 1 or len(set(list(s))) == 1:  # 输入都是相同字母直接返回吧
+        print(len(s))
+        return
+    longest = 0
+    for i in range(len(s)):
+        # 奇数对称
+        left_offset, right_offset = 0, 0
+        while i - left_offset >=0 and i+right_offset < len(s):
+            if s[i-left_offset] == s[i+right_offset]:
+                left_offset += 1
+                right_offset += 1
+            else:
+                break
+        longest = max(longest, left_offset+ right_offset - 1)
+        # 偶数左开始对称
+        left_offset, right_offset = 1, 0
+        while i - left_offset >=0 and i+right_offset < len(s):
+            if s[i-left_offset] == s[i+right_offset]:
+                left_offset += 1
+                right_offset += 1
+            else:
+                break
+        longest = max(longest, left_offset+ right_offset - 1)
+        # 偶数右对称
+        left_offset, right_offset = 0, 1
+        while i - left_offset >=0 and i+right_offset < len(s):
+            if s[i-left_offset] == s[i+right_offset]:
+                left_offset += 1
+                right_offset += 1
+            else:
+                break
+        longest = max(longest, left_offset+ right_offset - 1)
+    print(longest)
+
 
 fun()
