@@ -7,46 +7,32 @@
 # 解题核心思路：建立二维动态规划表，横轴是最大使用金额，纵轴是最大购买商品数量，值为当前购买物品和使用金额的最大价值
 # 遍历金额，动态转移方程就是 当最大使用金额大于当前物品金额时，当前最大价值 = 不买上个物品，买当前物品，使用金额为扣去当前物品金额后的金额，加上当前物品的价值
 
-# 输入
-# 1000 5
-# 800 2 0
-# 400 5 1
-# 300 5 1
-# 400 3 0
-# 500 2 0
-
-total_money, goods_cnt = list(map(int, input().split(' ')))
-total_money //= 10
-input_list = [list(map(int, input().split(' '))) for _ in range(goods_cnt)]
-main_cnt = len([i for i in input_list if i[-1] == 0])
-main_sub_price = [[0, 0, 0] for _ in range(goods_cnt)]
-main_sub_value = [[0, 0, 0] for _ in range(goods_cnt)]
-for idx, line in enumerate(input_list, 0):
-    price, value, flag = line
-    flag -= 1
-    if line[-1] == 0:
-        main_sub_price[idx][0] = price // 10
-        main_sub_value[idx][0] = price * value // 10
+money, number = list(map(int, input().strip().split()))
+money = money // 10
+main = [[[0, 0], [0, 0], [0, 0]] for _ in range(number + 2)]  # 依次存放第一个主件和它的附件
+for i in range(1, 1 + number):
+    v, p, q = list(map(int, input().strip().split()))
+    if q == 0:  # 主件
+        main[i][0] = [v // 10, v * p]
     else:
-        if main_sub_price[flag][1] == 0:
-            main_sub_price[flag][1] = price // 10
-            main_sub_value[flag][1] = price * value // 10
+        if main[q][1][0] == 0:
+            main[q][1] = [v // 10, v * p]
         else:
-            main_sub_price[flag][2] = price // 10
-            main_sub_value[flag][2] = price * value//10
-main_sub_price = [i for i in main_sub_price if i[0] != 0]
-main_sub_value = [i for i in main_sub_value if i[0] != 0]
-dp = [[0 for _ in range(total_money + 1)] for _ in range(1 + main_cnt)]
-for goods in range(1, 1 + len(main_sub_value)):
-    for use_money in range(1 + total_money):
-        p1, p2, p3 = main_sub_price[goods-1]
-        v1, v2, v3 = main_sub_value[goods-1]
-        if use_money >= p1:
-            dp[goods][use_money] = max(dp[goods-1][use_money-p1] + v1, dp[goods][use_money])
-        if use_money >= p1 + p2:
-            dp[goods][use_money] = max(dp[goods-1][use_money-p1-p2] + v1+v2, dp[goods][use_money])
-        if use_money >= p1 + p3:
-            dp[goods][use_money] = max(dp[goods-1][use_money-p1-p3] + v1+v3, dp[goods][use_money])
-        if use_money >= p1 + p2+p3:
-            dp[goods][use_money] = max(dp[goods-1][use_money-p1-p2-p3] + v1+v2+v3, dp[goods][use_money])
-print()
+            main[q][2] = [v // 10, v * p]
+main = [i for i in main if i[0][0] != 0]  # 去掉编号是空的主件
+dp = [[0 for i in range(1 + money)] for j in range(1 + len(main))]
+for num in range(1, 1 + len(main)):
+    for mon in range(1 + money):
+        dp[num][mon] = dp[num - 1][mon]  # 当前物品继承上一个物品的最大价值
+        (p1, v1), (p2, v2), (p3, v3) = main[num - 1]
+        # 不买前一个物品买这个物品和不买这个物品的最大值
+        if mon >= p1 + p2 + p3:  # 这里必须是dp[num][mon]不能是dp[num-1][mon]，因为这个值是在每个if更新的
+            dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p2 - p3] + v1 + v2 + v3)
+        if mon >= p1 + p3:
+            dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p3] + v1 + v3)
+        if mon >= p1 + p2:
+            dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p2] + v1 + v2)
+        if mon >= p1:
+            dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1] + v1)
+
+print(dp[-1][-1])
