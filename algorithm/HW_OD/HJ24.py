@@ -3,7 +3,8 @@
 # @Time    : 2023/11/1 19:14
 # @Author  : 刘双喜
 # @File    : HJ24.py
-# @Description : https://www.nowcoder.com/practice/6d9d69e3898f45169a441632b325c7b4?tpId=37&tqId=21247&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 动态规划；最长递增子序列
+# https://www.nowcoder.com/practice/6d9d69e3898f45169a441632b325c7b4?tpId=37&tqId=21247&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 解题核心思路：求出从左往右的每个位置左边最长递增子序列，再求出右往左每个位置最长递增子序列，相加减去本身即可
 # 求最长递增子序列：列出了两种方法。
 # 第一种：建立一维动态规划表，代表每个位置的最长递增子序列长度。遍历元素到i时，要求出i之前比i小的元素里最大的递增子序列长度。

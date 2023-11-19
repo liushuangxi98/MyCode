@@ -3,7 +3,8 @@
 # @Time    : 2023/10/31 19:26
 # @Author  : 刘双喜
 # @File    : HJ16.py
-# @Description : https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=&dayCountBigMember=30%E5%A4%A9&topicName_var=%E5%8D%8E%E4%B8%BA%E6%9C%BA%E8%AF%95&topicID_var=37
+# @Description : 动态规划；多个转移方程；
+# https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tqId=21239&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=&dayCountBigMember=30%E5%A4%A9&topicName_var=%E5%8D%8E%E4%B8%BA%E6%9C%BA%E8%AF%95&topicID_var=37
 # 解题核心思路：建立二维动态规划表，横轴是最大使用金额，纵轴是最大购买商品数量，值为当前购买物品和使用金额的最大价值
 # 遍历金额，动态转移方程就是 当最大使用金额大于当前物品金额时，当前最大价值 = 不买上个物品，买当前物品，使用金额为扣去当前物品金额后的金额，加上当前物品的价值
 

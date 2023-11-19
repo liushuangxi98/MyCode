@@ -3,7 +3,9 @@
 # @Time    : 2023/11/12 17:57
 # @Author  : 刘双喜
 # @File    : HJ89.py
-# @Description : 添加描述
+# @Description : DFS
+# https://www.nowcoder.com/practice/7e124483271e4c979a82eb2956544f9d?tpId=37&tqId=21312&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# 同24点计算一类题目，不过由于要打印计算过程，递归的时候需要记录
 from itertools import permutations
 
 

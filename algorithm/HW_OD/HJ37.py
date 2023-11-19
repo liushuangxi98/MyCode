@@ -3,7 +3,8 @@
 # @Time    : 2023/11/5 13:44
 # @Author  : 刘双喜
 # @File    : HJ37.py
-# @Description : https://www.nowcoder.com/practice/1221ec77125d4370833fd3ad5ba72395?tpId=37&tqId=21260&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 动态规划；逻辑
+# https://www.nowcoder.com/practice/1221ec77125d4370833fd3ad5ba72395?tpId=37&tqId=21260&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：方法1：维护一个列表存储所有兔子每个兔子的年龄，循环i个月，到i月时所有兔子年龄+1。 循环所有兔子，有年龄大于等于3的则兔子列表追加1
 # 方法2：第n个月的兔子个数=前一个月的数量 + 前2个月的数量（前2个月的都会生1个）。所以只用动态规划即可简单求解。
 

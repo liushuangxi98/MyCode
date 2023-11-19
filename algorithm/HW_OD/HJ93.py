@@ -3,7 +3,8 @@
 # @Time    : 2023/11/15 18:39
 # @Author  : 刘双喜
 # @File    : HJ93.py
-# @Description : https://www.nowcoder.com/practice/9af744a3517440508dbeb297020aca86?tpId=37&tqId=21316&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : DFS
+# https://www.nowcoder.com/practice/9af744a3517440508dbeb297020aca86?tpId=37&tqId=21316&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：将数据分为3组，3整除和5整除和任意组。递归任意组每一个数，分别尝试将它放入3组和5组，直到递归到最后一位时结算，是否相等。
 # 核心解题思路2：欲得res=arr3-arr5=0，所以直接计算arr3-arr5结果，再遍历每一个任意组的数，res加它或者减它。遍历完后判断res里是否有为0的结果，有则相等。
 

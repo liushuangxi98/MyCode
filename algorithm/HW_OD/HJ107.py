@@ -3,7 +3,8 @@
 # @Time    : 2023/11/13 18:34
 # @Author  : 刘双喜
 # @File    : HJ107.py
-# @Description : https://www.nowcoder.com/practice/caf35ae421194a1090c22fe223357dca?tpId=37&tqId=21330&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 二分法；逻辑
+# https://www.nowcoder.com/practice/caf35ae421194a1090c22fe223357dca?tpId=37&tqId=21330&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：负数的立方根=正数，小数的立方根等于倒数的立方根再倒数。
 # 先设答案必定在(1, n)。先设定在中间，如果答案的立方大于n，则答案应该更小，将范围的小值替换。
 

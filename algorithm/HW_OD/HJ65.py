@@ -3,7 +3,8 @@
 # @Time    : 2023/11/10 18:48
 # @Author  : 刘双喜
 # @File    : HJ65.py
-# @Description : https://www.nowcoder.com/practice/181a1a71c7574266ad07f9739f791506?tpId=37&tqId=21288&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 逻辑；动态规划
+# https://www.nowcoder.com/practice/181a1a71c7574266ad07f9739f791506?tpId=37&tqId=21288&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：遍历短串索引i，再遍历短串每个i到末尾、末尾-1，。。。，i的子串。判断子串是否在长串内，再即可braak当前索引。
 
 def fun():

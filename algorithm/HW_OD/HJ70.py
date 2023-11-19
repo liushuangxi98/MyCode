@@ -3,7 +3,8 @@
 # @Time    : 2023/11/10 20:31
 # @Author  : 刘双喜
 # @File    : HJ70.py
-# @Description : https://www.nowcoder.com/practice/15e41630514445719a942e004edc0a5b?tpId=37&tqId=21293&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 逻辑；栈
+# https://www.nowcoder.com/practice/15e41630514445719a942e004edc0a5b?tpId=37&tqId=21293&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：方法1：用一个字典存储每个字母的矩阵。 while循环查找 ) ,找到时计算其左边两个字母，得到结果后替换掉要计算的字符串，并且更新字典
 # 方法2：遍历计算法则，遇到字母则添加字母对应矩阵到带计算的列表order，遇到 ) 则用order.pop删除最后2个字母并计算值，再添加新的矩阵到order。
 

@@ -3,7 +3,8 @@
 # @Time    : 2023/11/5 23:03
 # @Author  : 刘双喜
 # @File    : HJ44.py
-# @Description : https://www.nowcoder.com/practice/78a1a4ebe8a34c93aac006c44f6bf8a1?tpId=37&tqId=21267&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : DFS
+# https://www.nowcoder.com/practice/78a1a4ebe8a34c93aac006c44f6bf8a1?tpId=37&tqId=21267&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心思路：方法一： 遍历所有格子，dfs每个格子，当前格子是空的则继续，否则找下一个空的。对空格找合法的值，没有合法的则False。遍历合法的值填入，dfs下一个格子。
 # 方法二：dfs里遍历所有格子，遇到空的则0~9依次填一个，合法继续dfs，不合法换一个，0~9都不合法则当前false。
 
@@ -29,7 +30,7 @@ def fun():
         # 如果已经遍历到了最后一个(8,8),则返回True
         if x == 8 and y == 8:
             value = find_legal_value(8, 8)
-            # 最后一个格子是空则填入
+            # 最后一个格子为空则填入
             if value:
                 for i in value:
                     board[8][8] = i
@@ -45,7 +46,7 @@ def fun():
             x = x % 9
             if x == 8 and y == 8:
                 value = find_legal_value(8, 8)
-                # 最后一个格子是空则填入
+                # 最后一个格子为空则填入
                 if value:
                     for i in value:
                         board[8][8] = i

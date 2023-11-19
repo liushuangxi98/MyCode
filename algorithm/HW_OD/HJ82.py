@@ -3,7 +3,8 @@
 # @Time    : 2023/11/12 12:20
 # @Author  : 刘双喜
 # @File    : HJ82.py
-# @Description : 添加描述
+# @Description : DFS+基础数学
+# https://www.nowcoder.com/practice/e0480b2c6aa24bfba0935ffcca3ccb7b?tpId=37&tqId=21305&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：用递归，每次求刚好比分数n小的分子是1的分数res就行。每次递归将求的res保存，n减去res，继续递归。
 
 def fun():

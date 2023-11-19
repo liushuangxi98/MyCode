@@ -3,7 +3,8 @@
 # @Time    : 2023/11/12 22:54
 # @Author  : 刘双喜
 # @File    : HJ95.py
-# @Description : https://www.nowcoder.com/practice/00ffd656b9604d1998e966d555005a4b?tpId=37&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D2%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=&judgeStatus=&tags=&title=&gioEnter=menu
+# @Description : 逻辑
+# https://www.nowcoder.com/practice/00ffd656b9604d1998e966d555005a4b?tpId=37&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D2%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=&judgeStatus=&tags=&title=&gioEnter=menu
 # 核心解题思路：大于0的数放左边，小于0的放右边。左边每4位为一组，添加'仟', '佰', '拾'，再replace掉特殊情况。
 
 

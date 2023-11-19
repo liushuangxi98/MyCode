@@ -3,7 +3,8 @@
 # @Time    : 2023/11/5 16:48
 # @Author  : 刘双喜
 # @File    : HJ43.py
-# @Description : https://www.nowcoder.com/practice/cf24906056f4488c9ddb132f317e03bc?tpId=37&tqId=21266&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : DFS
+# https://www.nowcoder.com/practice/cf24906056f4488c9ddb132f317e03bc?tpId=37&tqId=21266&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：建立迷宫，判断x,y坐标的地方，有哪几个方向可以走（不超迷宫且没走过）。
 # 递归不碰壁的（==0的）坐标。最后找到出口时，返回True，递归返回True时，将路径记录下来。
 

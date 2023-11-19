@@ -3,7 +3,8 @@
 # @Time    : 2023/11/12 16:06
 # @Author  : 刘双喜
 # @File    : HJ86.py
-# @Description : https://www.nowcoder.com/practice/4b1658fd8ffb4217bc3b7e85a38cfaf2?tpId=37&tqId=21309&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 逻辑
+# https://www.nowcoder.com/practice/4b1658fd8ffb4217bc3b7e85a38cfaf2?tpId=37&tqId=21309&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 
 
 def fun():
@@ -23,5 +24,11 @@ def fun():
             res_range = [mid, res_range[1]]
         else:
             res_range = [res_range[0], mid]
+
+def fun2():
+    x = int(input())
+    byte_x = bin(x)[2:]
+    list1 = sorted(list(set(byte_x.split('0'))), key=lambda x: len(x), reverse=True)
+    print(len(list1[0]))
 
 fun()

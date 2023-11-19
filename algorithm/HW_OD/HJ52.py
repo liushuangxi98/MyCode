@@ -3,7 +3,8 @@
 # @Time    : 2023/11/7 22:54
 # @Author  : 刘双喜
 # @File    : HJ52.py
-# @Description : https://www.nowcoder.com/practice/3959837097c7413a961a135d7104c314?tpId=37&tqId=21275&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 动态规划
+# https://www.nowcoder.com/practice/3959837097c7413a961a135d7104c314?tpId=37&tqId=21275&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：dp为有i位字符和j位字符的编辑距离；0位字符就是另一个字符串的长度；转移方程为两个字符串各少一位的最小值+1和同时少一位加上当前位是否相等
 
 def fun():

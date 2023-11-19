@@ -3,8 +3,8 @@
 # @Time    : 2023/11/8 21:25
 # @Author  : 刘双喜
 # @File    : HJ53.py
-# @Description : 添加描述
-
+# @Description : 基础数学；规律；
+# https://www.nowcoder.com/practice/8ef655edf42d4e08b44be4d777edbf43?tpId=37&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=&judgeStatus=&tags=&title=&gioEnter=menu
 
 def fun():
     n = int(input())
@@ -81,4 +81,24 @@ def fun3():
 
     index = cal(arr_n)
     print(index)
-fun3()
+
+
+def fun4():
+    def is_odd():
+        for i in dp:
+            if i % 2 == 0:
+                return dp.index(i) + 1
+        return -1
+
+    n = int(input())
+    if n == 1:
+        dp = [1]
+    elif n == 2:
+        dp = [1, 1, 1]
+    elif n == 3:
+        dp = [1, 2, 3, 2, 1]
+    else:
+        dp = [1, n - 1, n * (n - 1) / 2, (n * (n + 1) * (2 * n + 1) / 6 + n * (n + 1) / 2 - 2 * n) / 2]
+
+    print(is_odd())
+fun4()

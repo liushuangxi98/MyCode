@@ -3,7 +3,8 @@
 # @Time    : 2023/11/10 19:55
 # @Author  : 刘双喜
 # @File    : HJ69.py
-# @Description : 添加描述
+# @Description : 逻辑
+# https://www.nowcoder.com/practice/ebe941260f8c4210aa8c17e99cbc663b?tpId=37&tqId=21292&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 
 
 def fun():

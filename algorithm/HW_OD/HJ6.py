@@ -3,7 +3,8 @@
 # @Time    : 2023/11/4 20:40
 # @Author  : 刘双喜
 # @File    : HJ6.py
-# @Description : https://www.nowcoder.com/practice/196534628ca6490ebce2e336b47b3607?tpId=37&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=&judgeStatus=&tags=&title=&gioEnter=menu
+# @Description : 基础数学；
+# https://www.nowcoder.com/practice/196534628ca6490ebce2e336b47b3607?tpId=37&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=&judgeStatus=&tags=&title=&gioEnter=menu
 # 核心解题思路：求一个数的因子，只用求到它根号+1的值就行。例如求16的因子，因为是从小求到大，所以因子不会超过4+1
 
 def fun1():

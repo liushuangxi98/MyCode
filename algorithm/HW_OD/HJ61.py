@@ -3,7 +3,8 @@
 # @Time    : 2023/11/9 18:51
 # @Author  : 刘双喜
 # @File    : HJ61.py
-# @Description : https://www.nowcoder.com/practice/bfd8234bb5e84be0b493656e390bdebf?tpId=37&tqId=21284&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 动态规划；DFS
+# https://www.nowcoder.com/practice/bfd8234bb5e84be0b493656e390bdebf?tpId=37&tqId=21284&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路： 动态规划： 盘子多的时候，多1个和n个放法是一样多的；
 #                      盘子等的时候，等于少一个盘子的放法+多一个盘子多一种放法
 #                      盘子空着的，加盘子不空，每个盘子放一个，多余的果放盘子的方法数

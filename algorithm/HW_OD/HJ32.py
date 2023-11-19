@@ -3,7 +3,8 @@
 # @Time    : 2023/11/5 9:05
 # @Author  : 刘双喜
 # @File    : HJ32.py
-# @Description : https://www.nowcoder.com/practice/3cd4621963e8454594f00199f4536bb1?tpId=37&tqId=21255&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
+# @Description : 逻辑方法
+# https://www.nowcoder.com/practice/3cd4621963e8454594f00199f4536bb1?tpId=37&tqId=21255&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=
 # 核心解题思路：方法1：遍历字符串所有元素，求元素i位置的最大对称长度，即以i元素为中心，向左右扩展，直到不相等时break返回。
 # 方法2：
 # 方法3： 遍历字符串所有元素，求元素i左侧和右侧的逆序是否相等，相等则添加到列表
