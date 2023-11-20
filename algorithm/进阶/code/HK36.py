@@ -20,7 +20,7 @@ res = total
 for i in range(total):
     # 使用位运算快速计算每个节点的颜色
     colors = [(i >> j) & 1 for j in range(n)]
-
+    print(colors)
     # 检查每条边的两个节点是否都被染成红色
     for u, v in edges:
         if colors[u] == colors[v] == 0:
