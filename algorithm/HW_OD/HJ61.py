@@ -27,17 +27,16 @@ def fun_dp():
 
 def fun_dfs():
     def dfs(apple, dish):
-        if apple == 1:
+        if apple == 1 or dish == 1:
             return 1
-        if dish == 1:
-            return 1
-        if apple < dish:  # 苹果数量少
+        elif apple < dish:  # 苹果数量少
             return dfs(apple, dish - 1)
         elif apple == dish:
             return dfs(apple, dish - 1) + 1  # 相等时，等于少一个盘子的时候 + 多一个盘子的时候多1个选择
         elif apple > dish:
-            # 空一个盘子 + 不空时必有apple - dish要放在dish个里
-            return dfs(apple,dish -1) + dfs(apple -dish , dish)
+            # 空一个盘子 + (不空时必有apple - dish要放在dish个里)
+            return dfs(apple, dish - 1) + dfs(apple - dish, dish)
+
     _apple, _dish = list(map(int, input().split(' ')))
     ret = dfs(_apple, _dish)
     print(ret)
