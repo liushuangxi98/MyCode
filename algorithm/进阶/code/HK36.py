@@ -3,7 +3,8 @@
 # @Time    : 2023/11/20 22:46
 # @Author  : 刘双喜
 # @File    : HK36.py
-# @Description : 添加描述
+# @Description : 红黑图染色方案，枚举所有方案，再排除不符合条件的方案
+
 def fun():
     # 读取节点数和边数
     n, m = map(int, input().split())

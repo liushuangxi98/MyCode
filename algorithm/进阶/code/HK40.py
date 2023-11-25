@@ -3,7 +3,7 @@
 # @Time    : 2023/11/23 17:50
 # @Author  : 刘双喜
 # @File    : HK40.py
-# @Description : 添加描述
+# @Description : 栈
 
 def fun():
     s = '{A3B1{CD}3}3'

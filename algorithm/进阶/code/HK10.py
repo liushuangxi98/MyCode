@@ -4,40 +4,17 @@
 # @Author  : 刘双喜
 # @File    : HK10.py
 # @Description : 添加描述
+import random
 import sys
 import time
 
 
-def fun1():
-    sys.set_int_max_str_digits(10000000)
-    st = time.time()
-    _s = '34533'
-    _s = '5445795045'*10000
-    for i in _s[::]:
-        if _s.count(i) <= 1:
-            continue
-        else:
-            # 查找所有出现过数字i的位置，依次替换，找到最大值
-            res, start = [], 0
-            while True:
-                idx = _s[start:].find(i)
-                if idx != -1:
-                    res.append(_s[0:idx + start] + _s[idx + 1 + start:])
-                    start = start + idx + 1
-                else:
-                    break
-            _s = str(max(res, key=int))
-    print(_s)
-    print('fun1',time.time()-st)
-
-
-def fun2():
+def fun2(n):
+    # n = '9855408780'
     stt = time.time()
     cnt = [0] * 10  # 数字都是0-9呀，所以。
     s = []
     vis = [0] * 10
-    n = '5445795045'
-    # n = '12341'
     # 统计字符出现的次数
     for c in n:
         cnt[int(c)] += 1
@@ -54,7 +31,7 @@ def fun2():
             # 栈不为空，当前值大于栈顶元素，
             # cnt[st[-1]]>0 不然你把它弹出，后面没有了就尴尬了
             # vis[s[i]] 要为0,不能访问过。如果访问过一定在里边，或者后面还有。
-            while st and st[-1] < s[i] and cnt[st[-1]] and not vis[s[i]]:
+            while st and s[i] > st[-1] and cnt[st[-1]] > 0 and not vis[s[i]]:
                 vis[st[-1]] = 0  # 弹出之后，要把这个标记为未访问。这个重要。
                 st.pop()
             # 弹栈完了,vis[s[i]]不能访问过。
@@ -62,9 +39,44 @@ def fun2():
                 st.append(s[i])  # 加入单调栈里。
                 vis[s[i]] = 1  # 标记为已访问。
     # 栈里的元素保留的就是最棒的。
-    print(int("".join(map(str, st))))
-    print('fun2', time.time()-stt)
+    return "".join(map(str, st)), time.time() - stt
 
 
-# fun1()
-fun2()
+def fun3(n):
+    # n = '9855408780'
+    st = time.time()
+    stack = []
+    n = list(map(int, n))
+    count = [n.count(i) for i in range(0, 10)]
+    for i in n:
+        if i in stack and stack.count(i) >= 2:  # 当前元素已经在栈内了,栈内已经容纳满了该元素
+            count[i] -= 1
+            continue
+        elif stack:  # 栈非空则判断栈顶是否合法
+            while True:  # '5445795045'
+                # 栈顶的元素，如果比当前元素小并且有重复并且当前元素不在栈内，则需要出栈
+                if stack and stack[-1] <= i and count[stack[-1]] >= 3:
+                    out = stack.pop()
+                    count[out] -= 1
+                else:
+                    # 如果当前元素不在栈内则入栈
+                    stack.append(i)
+                    break
+        else:
+            stack.append(i)  # 栈是空则入栈
+    return ''.join(map(str, stack)), time.time() - st
+
+
+# for i in range(10):
+#     n = '5445795045'
+#     n = str(random.randint(1111111111, 9999999999))
+#     # n = n*10000
+#     # n = '8448796048'
+#
+#     s2, t2 = fun2(n)
+#     s3, t3 = fun3(n)
+#     if len(set([s2, s3])) != 1:
+#         print(n, s2, s3)
+
+s1,t1 = fun3('34533')
+print(s1)

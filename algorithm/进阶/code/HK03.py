@@ -3,7 +3,8 @@
 # @Time    : 2023/11/20 21:59
 # @Author  : 刘双喜
 # @File    : HK03.py
-# @Description : 添加描述
+# @Description : 最多等和且不相交连续子序列
+# 解题思路：暴力枚举所有子序列，得到和。再求不相交的最多等和子序列数量，求不相交先按照子序列结束位置排序，再判断开始索引大小即可得不相交。
 
 def find_max_equal_sum_subsequences(arr):
     # 创建一个字典来存储子序列的和及其对应的索引
