@@ -3,9 +3,9 @@
 # @Time    : 2023/11/23 20:17
 # @Author  : 刘双喜
 # @File    : HK10.py
-# @Description : 添加描述
+# @Description : 单调栈
+# 数字字符串中，去除重复数字能保留下来的最大数字
 import random
-import sys
 import time
 
 

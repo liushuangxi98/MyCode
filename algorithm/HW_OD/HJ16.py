@@ -26,7 +26,7 @@ for num in range(1, 1 + len(main)):
     for mon in range(1 + money):
         dp[num][mon] = dp[num - 1][mon]  # 当前物品继承上一个物品的最大价值
         (p1, v1), (p2, v2), (p3, v3) = main[num - 1]
-        # 不买前一个物品买这个物品和不买这个物品的最大值
+        # 不买这个物品（买前一个物品） 和 不买前一个物品买这个物品的最大值
         if mon >= p1 + p2 + p3:  # 这里必须是dp[num][mon]不能是dp[num-1][mon]，因为这个值是在每个if更新的
             dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p2 - p3] + v1 + v2 + v3)
         if mon >= p1 + p3:
