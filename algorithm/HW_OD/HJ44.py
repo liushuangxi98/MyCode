@@ -10,9 +10,6 @@
 
 
 def fun():
-    def judge(x, y):
-        pass
-
     def find_legal_value(x, y):
         # 查找当前坐标点的合法可填值
         x_axis = set(board[x])

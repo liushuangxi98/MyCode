@@ -104,6 +104,7 @@ def fun_3():
     print(max(ls))
     return
 
+
 def fun_4():
     s = input()
     if len(s) == 1 or len(set(list(s))) == 1:  # 输入都是相同字母直接返回吧
@@ -113,32 +114,50 @@ def fun_4():
     for i in range(len(s)):
         # 奇数对称
         left_offset, right_offset = 0, 0
-        while i - left_offset >=0 and i+right_offset < len(s):
-            if s[i-left_offset] == s[i+right_offset]:
+        while i - left_offset >= 0 and i + right_offset < len(s):
+            if s[i - left_offset] == s[i + right_offset]:
                 left_offset += 1
                 right_offset += 1
             else:
                 break
-        longest = max(longest, left_offset+ right_offset - 1)
+        longest = max(longest, left_offset + right_offset - 1)
         # 偶数左开始对称
         left_offset, right_offset = 1, 0
-        while i - left_offset >=0 and i+right_offset < len(s):
-            if s[i-left_offset] == s[i+right_offset]:
+        while i - left_offset >= 0 and i + right_offset < len(s):
+            if s[i - left_offset] == s[i + right_offset]:
                 left_offset += 1
                 right_offset += 1
             else:
                 break
-        longest = max(longest, left_offset+ right_offset - 1)
+        longest = max(longest, left_offset + right_offset - 1)
         # 偶数右对称
         left_offset, right_offset = 0, 1
-        while i - left_offset >=0 and i+right_offset < len(s):
-            if s[i-left_offset] == s[i+right_offset]:
+        while i - left_offset >= 0 and i + right_offset < len(s):
+            if s[i - left_offset] == s[i + right_offset]:
                 left_offset += 1
                 right_offset += 1
             else:
                 break
-        longest = max(longest, left_offset+ right_offset - 1)
+        longest = max(longest, left_offset + right_offset - 1)
     print(longest)
+
+
+def longest_palindrome(s):
+    # 动态规划求最长回文子串
+    if len(s) == 0:
+        return 0
+    n = len(s)
+    longest_len = 0
+    dp = [[False] * n for _ in range(n)]
+    for length in range(1, n + 1):
+        for start in range(n):
+            end = start + length - 1
+            if end >= n:
+                break
+            dp[start][end] = (length == 1 or length == 2 or dp[start + 1][end - 1]) and s[start] == s[end]
+            if dp[start][end] and length > longest_len:
+                longest_len = length
+    return longest_len
 
 
 fun()

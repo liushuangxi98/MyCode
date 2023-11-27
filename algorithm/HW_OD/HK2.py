@@ -4,6 +4,9 @@
 # @Author  : 刘双喜
 # @File    : HK2.py
 # @Description : 从第一个城市出发，到最后一个城市，求所有路径中的最短路径
+import itertools
+
+
 def tsp1(dis):
     # n 是城市的数量
     n = len(dis)
@@ -61,7 +64,15 @@ def tsp2(dis):
     # 我们返回从任何一个城市出发，访问所有城市并返回原点的最短路径长度
     return min(dp[i][(1 << n) - 1] + dis[i][0] for i in range(n))
 
-
+def tsp3(dis):
+    # dp记录所在城市和去过城市信息，dp[i][j]为在i城市，去过j城市时的最短距离
+    # 在i城市去过j城市的最短距离 = 上一步的最短距离 = 从其他城市来i城市的最短的那个
+    might_go = 1
+    dp = [[float('inf') for i in itertools.permutations()] for j in range(len(dis))]
+    for i in range(len(dp)):
+        for j in dp[i]:
+            pass
+    pass
 
 # dis[i][j]城市i到城市j的距离
 dis = [[0, 3, 6, 7],
