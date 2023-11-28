@@ -49,13 +49,12 @@ def fun3(n):
     n = list(map(int, n))
     count = [n.count(i) for i in range(0, 10)]
     for i in n:
-        if i in stack and stack.count(i) >= 2:  # 当前元素已经在栈内了,栈内已经容纳满了该元素
+        if stack.count(i) == 1:  # 当前元素已经在栈内了,栈内已经容纳满了该元素
             count[i] -= 1
-            continue
         elif stack:  # 栈非空则判断栈顶是否合法
             while True:  # '5445795045'
                 # 栈顶的元素，如果比当前元素小并且有重复并且当前元素不在栈内，则需要出栈
-                if stack and stack[-1] <= i and count[stack[-1]] >= 3:
+                if stack and stack[-1] <= i and count[stack[-1]] >1:
                     out = stack.pop()
                     count[out] -= 1
                 else:
@@ -78,5 +77,5 @@ def fun3(n):
 #     if len(set([s2, s3])) != 1:
 #         print(n, s2, s3)
 
-s1,t1 = fun3('34533')
+s1,t1 = fun3('5445795045'*100)
 print(s1)

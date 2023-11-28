@@ -7,7 +7,6 @@
 
 def fun():
     s = '{A3B1{CD}3}3'
-    s = '{A3B1{C}3}3'
     stack = []
     for idx, i in enumerate(s):
         # 结算完，判断结算后右括号后有没有触发翻倍

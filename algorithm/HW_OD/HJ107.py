@@ -18,6 +18,7 @@ def fun():
     # 小于1的取倒数转换为大于1的数来处理，结果再取倒数倒回来
     flag2 = '/' if 0 < n < 1 else ''
     n = 1 / n if 0 < n < 1 else n
+
     # 由于没有负数和小于1的数，答案应在的范围大于1
     ans_range = (1, n)
     # 默认答案从二分中间开始
@@ -26,6 +27,7 @@ def fun():
         # 大于时更新最大值，小于时更新最小值
         ans_range = [ans_range[0], ans] if ans * ans * ans > n else [ans, ans_range[1]]
         ans = (ans_range[0] + ans_range[1]) / 2
+
     # 是不是0到1之间的数，倒数回来
     if flag2 == '/':
         print(f'{1 / ans * flag:.1f}')

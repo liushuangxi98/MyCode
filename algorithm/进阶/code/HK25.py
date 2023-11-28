@@ -10,7 +10,6 @@ maze = [[1, 2, 5, 2], [2, 4, 4, 5], [3, 5, 7, 1], [4, 6, 2, 4]]
 
 
 def fun1():
-
     def dfs(i, j, value):
         nonlocal step
         if abs(maze[i][j] - value) > 1 or [i, j] in step_visit:
@@ -30,12 +29,11 @@ def fun1():
     max_step = 1
     for i in range(m):
         for j in range(n):
-            step = 0
-            step_visit = []
+            step = 0  # 本次能活动的最大的区域
+            step_visit = []  # 已访问的活动区域
             dfs(i, j, maze[i][j])
-            max_step = max(max_step,step)
+            max_step = max(max_step, step)
     print(max_step)
-    # print(step_visit)
 
 
 fun1()
