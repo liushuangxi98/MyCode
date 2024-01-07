@@ -1,13 +1,4 @@
-def permute(data, i, length):
-    if i == length:
-        a.append(data[::])
-    else:
-        for j in range(i, length):
-            data[i], data[j] = data[j], data[i]
-            permute(data, i + 1, length)
-            data[i], data[j] = data[j], data[i]
-
-
-a = []
-permute([1, 2, 3, 4], 0, 4)
-print(a)
+import math
+pi = math.pi
+n = 2  # 向上取整，保留小数的位竖
+print(math.ceil(pi * pow(10, n)) / pow(10, n))

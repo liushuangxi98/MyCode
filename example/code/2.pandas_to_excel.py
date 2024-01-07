@@ -4,7 +4,7 @@ import numpy as np
 from openpyxl import load_workbook
 
 data = np.random.randint(10, 30, 100).reshape(10, 10)
-pd_data_3 = pd.DataFrame(data, index=pd.date_range('2022-03-01', periods=10).date,
+pd_data_3 = pd.DataFrame(data, index=pd.date_range('2022-03-01', periods=10).data,
                          columns=[f'{i}时' for i in range(10)])
 # pd_data_3.to_excel('test.xlsx', sheet_name='3月', header=True, index=True, na_rep='NA', startcol=0, startrow=0)
 # header:是否写入列索引
