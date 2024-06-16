@@ -3,7 +3,8 @@ import tkinter as tk
 
 def update_label(label, text):
     label.config(text=str(text))
-    label.update_idletasks()
+    # label.update_idletasks()
+    root.update()
 
 root = tk.Tk()
 label_i = tk.Label(root, text="")
