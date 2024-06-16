@@ -5,13 +5,17 @@
 # @File    : 60.图像化窗口.py
 # @Description : 添加描述
 import time
+
 import tkinter as tk
+from tkinter import messagebox
 
 # 创建一个新的窗口
 window = tk.Tk()
 window.title('这是标题')
-window.geometry('300x1000')
-
+window.geometry('600x1200')
+# pack(side='top' bottom  left  right
+# tk.Label(window, text='111').grid(row=2, column=3, ipadx=2, ipady=2)  # 格子
+tk.Label(window, text='111111').place(x=3,y=4, anchor='nw')
 # 创建变量
 var_str1 = tk.StringVar()
 var_str1.set('显示')
@@ -129,16 +133,19 @@ check_button_1.pack()
 check_button_2.pack()
 
 # 图片
-canvas = tk.Canvas(window, bg='blue', height=200, width=200)
+canvas = tk.Canvas(window, bg='blue', height=150, width=200)
 img_file = tk.PhotoImage(file='..\\data\\60.tk\\1.png')
 img = canvas.create_image(10, 10, anchor='nw', image=img_file)
 x0, y0, x1, y1 = 50, 50, 80, 80
-arc = canvas.create_arc(x0,y0,x1,y1, start=0, extent=180) # 扇形
-rect = canvas.create_rectangle(150,150, 100+20, 100+40) # 长方形，起点坐标和终点坐标
+arc = canvas.create_arc(x0, y0, x1, y1, start=0, extent=180)  # 扇形
+rect = canvas.create_rectangle(150, 150, 100 + 20, 100 + 40)  # 长方形，起点坐标和终点坐标
 canvas.pack()
 
+
 def move():
-    canvas.move(rect, 1,2)
+    canvas.move(rect, 1, 2)
+
+
 button_6 = tk.Button(window, text='Move', command=move)
 button_6.pack()
 
@@ -146,10 +153,13 @@ button_6.pack()
 label_4 = tk.Label(window, text='标签4', bg='red')
 label_4.pack()
 count = 1
+
+
 def do_job():
     global count
     label_4.config(text=f'do count={count}')
     count += 1
+
 
 menubar = tk.Menu(window)
 file_menu = tk.Menu(menubar, tearoff=0)  # tearoff=1,显示虚线，可以移动菜单
@@ -165,5 +175,29 @@ window.config(menu=menubar)
 file_menu.add_cascade(label='Edit', menu=sub_menu, underline=0)
 sub_menu.add_command(label='Name', command=do_job)
 
+# frame
+frm = tk.Frame(window, background='red')
+frm.pack()
+
+frm_left = tk.Frame(frm)
+frm_right = tk.Frame(frm)
+frm_left.pack(side='left')
+frm_right.pack(side='right')
+
+tk.Label(frm, text='fist Fram').pack()
+tk.Label(frm_left, text='Left Fram').pack()
+tk.Label(frm_right, text='Right Fram').pack()
+
+# message box
+def hit_me2():
+    # messagebox.showinfo(title='Hi', message='hahaha')
+    # messagebox.showerror(title='Hi', message='nonono')
+    # messagebox.showwarning(title='Hi', message='Never')
+    # print(messagebox.askquestion(title='Hi', message='ye or no'))  # return yes or no
+    # print(messagebox.askyesno(title='Hi', message='ye or no'))  # return true or false
+    # print(messagebox.askretrycancel(title='Hi', message='ye or no'))  # return true or false
+    print(messagebox.askokcancel(title='Hi', message='ye or no'))  # return true or false
+
+tk.Button(window, text='hit me', command=hit_me2).pack()
 # 运行主循环
 window.mainloop()
