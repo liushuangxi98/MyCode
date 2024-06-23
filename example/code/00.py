@@ -1,79 +1,46 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time    : 2024/6/19 21:40
-# @Author  : 刘双喜
-# @File    : 00.py
-# @Description : 添加描述
-import sys
-import time
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QMenu, QStackedWidget, QLabel, QVBoxLayout, QWidget
+from PyQt6.QtGui import QAction
 
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit
-from PyQt6.QtCore import QTimer
+app = QApplication([])
 
+window = QMainWindow()
 
-class InfoDisplay(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-        self.name = None
-        self.age = None
-        self.sex = None
+# 创建一个堆栈式部件
+stacked_widget = QStackedWidget(window)
 
-    def initUI(self):
-        layout = QVBoxLayout()
+# 创建一些页面
+label1 = QLabel("Page 1")
+label2 = QLabel("Page 2")
+label3 = QLabel("Page 3")
 
-        self.name_label = QLabel("Name: ")
-        self.name_text = QLineEdit()
-        self.name_text.setReadOnly(True)
-        layout.addWidget(self.name_label)
-        layout.addWidget(self.name_text)
+# 将页面添加到堆栈式部件中
+stacked_widget.addWidget(label1)
+stacked_widget.addWidget(label2)
+stacked_widget.addWidget(label3)
 
-        self.age_label = QLabel("Age: ")
-        self.age_text = QLineEdit()
-        self.age_text.setReadOnly(True)
-        layout.addWidget(self.age_label)
-        layout.addWidget(self.age_text)
+# 创建一个按钮
+button = QPushButton("Menu", window)
+button.setMenu(QMenu(window))  # 设置按钮的菜单
 
-        self.sex_label = QLabel("Sex: ")
-        self.sex_text = QLineEdit()
-        self.sex_text.setReadOnly(True)
-        layout.addWidget(self.sex_label)
-        layout.addWidget(self.sex_text)
+# 创建一些菜单项
+action1 = QAction("Option 1", window)
+action2 = QAction("Option 2", window)
+action3 = QAction("Option 3", window)
 
-        self.setLayout(layout)
-        self.setWindowTitle('Info Display')
+# 当点击菜单项时，切换到对应的页面
+action1.triggered.connect(lambda: stacked_widget.setCurrentIndex(0))
+action2.triggered.connect(lambda: stacked_widget.setCurrentIndex(1))
+action3.triggered.connect(lambda: stacked_widget.setCurrentIndex(2))
 
-        # 创建一个定时器
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_info)  # 连接超时信号和槽函数
-        self.timer.start(100)  # 启动定时器，参数是间隔的毫秒数
+# 将菜单项添加到按钮的菜单中
+button.menu().addAction(action1)
+button.menu().addAction(action2)
+button.menu().addAction(action3)
 
-    def update_info(self, name=None, age=None, sex=None):
-        if name is not None:
-            self.name = name
-            self.name_text.setText(name)
-        if age is not None:
-            self.age = age
-            self.age_text.setText(str(age))
-        if sex is not None:
-            self.sex = sex
-            self.sex_text.setText(sex)
-        # 刷新界面以显示更新
-        self.update()
+# 移动按钮到窗口中的其他位置
+button.move(100, 100)
 
+window.setCentralWidget(stacked_widget)
+window.show()
 
-# 测试代码
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = InfoDisplay()
-    window.show()
-
-    # 模拟循环测试中的信息更新
-    for i in range(10):  # 示例循环5次，每次更新信息
-        window.update_info(name=f"User{i}", age=i * 2, sex="Male" if i % 2 == 0 else "Female")
-        QApplication.processEvents()  # 确保UI更新可见
-        time.sleep(10)
-
-        # 注意：实际应用中可能需要根据具体逻辑控制循环和更新频率，避免UI冻结
-
-    sys.exit(app.exec())
+app.exec()
