@@ -18,6 +18,7 @@ class CustomWidget(QWidget):
         self.parent = parent
         self.x = 0
         self.y = 0
+        self.menu_bar = self.parent.menuBar()  # 创建菜单条
 
     def get_default_xy(self, x, y):
         _x = self.x = self.x if x is None else x  # 当前的
@@ -56,15 +57,15 @@ class CustomWidget(QWidget):
         print(selected_text)
         return _combo_box
 
-    def init_menu(self, x=None, y=None, name: str = ''):
+    def init_menu(self, x=None, y=None, name: str = None, sub_name_lst: list = None):
         # x, y = self.get_default_xy(x, y)
-        menu_bar = self.parent.menuBar()  # 创建菜单条
         file_menu = QMenu(name, self.parent)  # 菜单1-文件
-        # 创建一个菜单项
-        open_action = QAction(name, self.parent)
-        # 将菜单项添加到菜单中
-        file_menu.addAction(open_action)
-        menu_bar.addMenu(file_menu)
+        for i in sub_name_lst:
+            # 创建一个菜单项
+            open_action = QAction(i, self.parent)
+            # 将菜单项添加到菜单中
+            file_menu.addAction(open_action)
+        self.menu_bar.addMenu(file_menu)
         return file_menu
 
     # def init_menu(self, x=None, y=None, value: list = None, name: str = ''):
@@ -82,6 +83,7 @@ class CustomWidget(QWidget):
     # def init_menu_action(self, x=None, y=None, name: str = ''):
     #     x, y = self.get_default_xy(x, y)
     #     return _menu
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -110,8 +112,8 @@ class MainWindow(QMainWindow):
         custom_widget.init_label()
         custom_widget.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-')
         # 菜单设置
-        file_menu = custom_widget.init_menu(name="File")
-
+        custom_widget.init_menu(name="File", sub_name_lst=['Open', 'Save'])
+        custom_widget.init_menu(name="Edit", sub_name_lst=['Copy', 'Paste'])
 
     def set_center(self):
         qr = self.frameGeometry()  # 得到矩形窗口
