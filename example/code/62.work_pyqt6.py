@@ -8,6 +8,7 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QApplication, QWidget, \
     QPushButton, QVBoxLayout, QToolTip, QMessageBox, QLabel, QLineEdit, QProgressBar, QComboBox, QMenu
 from PyQt6.QtGui import QAction
+from PyQt6.QtGui import QPixmap, QPalette, QBrush
 from PyQt6.QtCore import QTimer, QTime, Qt
 from PyQt6.QtGui import QPainter, QColor, QPen
 
@@ -68,22 +69,6 @@ class CustomWidget(QWidget):
         self.menu_bar.addMenu(file_menu)
         return file_menu
 
-    # def init_menu(self, x=None, y=None, value: list = None, name: str = ''):
-    #     x, y = self.get_default_xy(x, y)
-    #
-    #     _menu_bar = QMenuBar(self.parent)
-    #     _menu = QMenu(name, self.parent)
-    #     _menu_sub = QAction(name + ' sub', self.parent)
-    #     _menu.addAction(_menu_sub)
-    #     _menu_bar.addMenu(_menu)
-    #     # _menu.move(x, y)
-    #     return _menu
-    #
-    #
-    # def init_menu_action(self, x=None, y=None, name: str = ''):
-    #     x, y = self.get_default_xy(x, y)
-    #     return _menu
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -91,8 +76,8 @@ class MainWindow(QMainWindow):
         self.rhythm_flag = True
         self.labels = ['AAA', 'B', 'C', 'D', 'E']
         self.timer = QTimer()  # 创建一个定时器
-        self.window_width = 1000
-        self.window_height = 1000
+        self.window_width = 3840 * 0.4
+        self.window_height = 2160 * 0.4
         self.init_ui()
 
     def init_ui(self):
@@ -105,6 +90,17 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.update)  # 当定时器超时时，更新窗口
         self.timer.start(500)  # 每秒触发一次定时器
         self.set_center()
+
+        # 创建一个QPixmap对象，加载图片
+        pixmap = QPixmap(r'E:\\file\\python\\MyCode\\example\\code\\61.data\\3.png')
+        pixmap = pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+
+        # 创建一个QPalette对象，设置背景图片
+        palette = QPalette()
+        palette.setBrush(QPalette.ColorRole.Window, QBrush(pixmap))
+
+        # 将调色板应用到主窗口
+        self.setPalette(palette)
 
         # 部件设置
         custom_widget = CustomWidget(self)
@@ -127,14 +123,14 @@ class MainWindow(QMainWindow):
         painter.translate(self.width() / 2, self.height() / 2)  # 将坐标系的原点移动到窗口的中心
         self.rhythm_flag = not self.rhythm_flag  # 每次打印都切换长度
         self.draw_clock_progress(painter, self.labels, 1, 360)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 2, 330, Qt.GlobalColor.blue)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 3, 300, Qt.GlobalColor.yellow)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 2, 270, Qt.GlobalColor.darkCyan)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 4, 240, Qt.GlobalColor.gray)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 3, 210, Qt.GlobalColor.lightGray)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 2, 330, Qt.GlobalColor.green)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 3, 300, Qt.GlobalColor.green)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 2, 270, Qt.GlobalColor.green)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 4, 240, Qt.GlobalColor.green)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 3, 210, Qt.GlobalColor.green)  # 绘制时钟的表面
 
     def draw_clock_progress(self, painter, labels, idx, line_start, finsh_color=Qt.GlobalColor.green,
-                            not_finsh_color=Qt.GlobalColor.black):
+                            not_finsh_color=Qt.GlobalColor.white):
         line_num = line_start // 3 + (len(labels) - line_start // 3 % len(labels))
         size = 2  # 粗细
         len_short = 12  # 短的长度

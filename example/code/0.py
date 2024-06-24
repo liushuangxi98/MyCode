@@ -1,29 +1,25 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QMenu, QStackedWidget, QLabel, QVBoxLayout, QWidget
-from PyQt6.QtGui import QPainter, QTransform
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction
 
-class RotatedButton(QPushButton):
-    def __init__(self, text, parent=None):
-        super().__init__(text, parent)
-        self.angle = 45  # 设置旋转角度为45度
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        painter.setTransform(QTransform().rotate(self.angle))  # 设置旋转变换
-        painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self.text())  # 绘制文本
+    def init_ui(self):
+        self.setWindowTitle('测试窗口')
+        self.setGeometry(0, 0, 1500, 1500)
 
-app = QApplication([])
+        # 创建一个QLabel对象，加载并显示图片
+        label = QLabel(self)
+        pixmap = QPixmap(r'E:\\file\\python\\MyCode\\example\\code\\61.data\\2.png')
+        label.setPixmap(pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio))
 
-window = QMainWindow()
+        self.setCentralWidget(label)
 
-# 创建一个旋转的按钮
-button = RotatedButton("Rotated Button", window)
-
-# 移动按钮到窗口中的其他位置
-button.move(100, 100)
-
-window.show()
-
-app.exec()
+if __name__ == '__main__':
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec()
