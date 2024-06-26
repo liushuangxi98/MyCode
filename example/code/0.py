@@ -1,25 +1,23 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel
-from PyQt6.QtGui import QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QMenuBar, QMenu
+from PyQt6.QtGui import QAction
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
+class CustomWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
-    def init_ui(self):
-        self.setWindowTitle('测试窗口')
-        self.setGeometry(0, 0, 1500, 1500)
+        self.menu_bar = QMenuBar(self)
+        self.menu_bar.setGeometry(0, 0, self.width(), 30)
 
-        # 创建一个QLabel对象，加载并显示图片
-        label = QLabel(self)
-        pixmap = QPixmap(r'E:\\file\\python\\MyCode\\example\\code\\61.data\\2.png')
-        label.setPixmap(pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio))
+        self.file_menu = QMenu("File", self)
+        self.menu_bar.addMenu(self.file_menu)
 
-        self.setCentralWidget(label)
+        self.open_action = QAction("Open", self)
+        self.file_menu.addAction(self.open_action)
 
-if __name__ == '__main__':
-    app = QApplication([])
-    window = MainWindow()
-    window.show()
-    app.exec()
+        self.save_action = QAction("Save", self)
+        self.file_menu.addAction(self.save_action)
+
+app = QApplication([])
+window = CustomWidget()
+window.show()
+app.exec()
