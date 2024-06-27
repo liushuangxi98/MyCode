@@ -6,8 +6,7 @@
 # @Description : 添加描述
 from custom_widget import *
 from PyQt6.QtGui import QPixmap, QPalette, QBrush
-from PyQt6.QtCore import QTimer, QTime, Qt
-from PyQt6.QtGui import QPainter, QColor, QPen
+
 
 class UiMainWindow(object):
     def __init__(self, main_window):
@@ -16,11 +15,11 @@ class UiMainWindow(object):
         self.window_height = 2160 * 0.4
         self.rhythm_flag = True
         self.stacked_widget = QStackedWidget()
-        self.page1 = CustomWidget(self.main_window)
-        self.page2 = CustomWidget(self.main_window)
+        self.page1 = CustomWidget(False)
+        self.page2 = CustomWidget(True)
         self.stacked_widget.addWidget(self.page1)
         self.stacked_widget.addWidget(self.page2)
-        self.page = CustomWidget(self.main_window)
+        # self.page = CustomWidget(True)
         self.stacked_widget.setCurrentIndex(0)
         self.main_window.setCentralWidget(self.stacked_widget)
         self.init_ui()
@@ -46,9 +45,10 @@ class UiMainWindow(object):
         self.page1.init_button(370, 370)
         self.page1.init_label()
         self.page2.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-')
+        self.page2.draw_clock()
         # 菜单设置
         self.page1.init_menu(name="File", sub_name_lst=['Open', 'Save'])
-        # self.page2.init_menu(name="Edit", sub_name_lst=['Copy', 'Paste'])
+        self.page2.init_menu(name="Edit", sub_name_lst=['Copy', 'Paste'])
 
     def go_to_page1(self):
         self.stacked_widget.setCurrentIndex(0)
@@ -64,6 +64,26 @@ class UiMainWindow(object):
             Qt.WindowType.WindowCloseButtonHint | Qt.WindowType.WindowMinimizeButtonHint)
 
         self.set_center()
+
+    def set_background(self):
+        # 创建一个QPixmap对象，加载图片
+        pixmap = QPixmap(r'3.png')
+        pixmap = pixmap.scaled(self.main_window.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+
+        # 创建一个QPalette对象，设置背景图片
+        palette = QPalette()
+        palette.setBrush(QPalette.ColorRole.Window, QBrush(pixmap))
+
+        # 将调色板应用到主窗口
+        self.main_window.setPalette(palette)
+
+    def set_center(self):
+        qr = self.main_window.frameGeometry()  # 得到矩形窗口
+        cp = self.main_window.screen().availableGeometry().center()  # 计算分辨率，然后计算中心点
+        qr.moveCenter(cp)  # 计算窗口中心点位置
+        self.main_window.move(qr.topLeft())  # 窗口左上角移动到计算出窗口左上角位置
+
+
 
     def set_style(self):
         self.main_window.setStyleSheet(
@@ -587,69 +607,3 @@ class UiMainWindow(object):
             "}\n"
             "\n"
             "")
-
-    def set_background(self):
-        # 创建一个QPixmap对象，加载图片
-        pixmap = QPixmap(r'3.png')
-        pixmap = pixmap.scaled(self.main_window.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-
-        # 创建一个QPalette对象，设置背景图片
-        palette = QPalette()
-        palette.setBrush(QPalette.ColorRole.Window, QBrush(pixmap))
-
-        # 将调色板应用到主窗口
-        self.main_window.setPalette(palette)
-
-    def set_center(self):
-        qr = self.main_window.frameGeometry()  # 得到矩形窗口
-        cp = self.main_window.screen().availableGeometry().center()  # 计算分辨率，然后计算中心点
-        qr.moveCenter(cp)  # 计算窗口中心点位置
-        self.main_window.move(qr.topLeft())  # 窗口左上角移动到计算出窗口左上角位置
-
-    def paintEvent(self, event):
-        painter = QPainter(self.main_window)  # 创建一个画笔
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)  # 设置抗锯齿
-        painter.translate(self.main_window.width() / 2, self.main_window.height() / 2)  # 将坐标系的原点移动到窗口的中心
-        self.rhythm_flag = not self.rhythm_flag  # 每次打印都切换长度
-        self.draw_clock_progress(painter, self.main_window.labels, 1, 360)  # 绘制时钟的表面
-        self.draw_clock_progress_across(painter, self.main_window.labels, 2, 330, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.main_window.labels, 3, 300, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.main_window.labels, 2, 270, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.main_window.labels, 4, 240, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.main_window.labels, 3, 210, Qt.GlobalColor.green)  # 绘制时钟的表面
-
-    def draw_clock_progress(self, painter, labels, idx, line_start, finsh_color=Qt.GlobalColor.green,
-                            not_finsh_color=Qt.GlobalColor.white):
-        line_num = line_start // 3 + (len(labels) - line_start // 3 % len(labels))
-        size = 2  # 粗细
-        len_short = 12  # 短的长度
-        len_long = 24  # 长的长度
-        painter.setPen(QPen(finsh_color, size))  # 前部分，已完成的，颜色
-        step = line_num // len(labels)
-        for j in range(line_num):  # 遍历0到59
-            if (j % step) != 0:  # 未到当前元素列表
-                lens = len_long if j % 2 == self.rhythm_flag else len_short  # 当前线条长或短
-                painter.drawLine(line_start, -4, line_start + lens, -4)  # 绘制一根线, 略微偏移，|和字符占用空间不同
-            else:  # 当前到了要绘制labels的时候
-                if j // step == idx:  # 到了当前循环到的，设置颜色，之后的都是未完成
-                    painter.setPen(QPen(not_finsh_color, size))  # 设置画笔的颜色和宽度
-                painter.drawText(line_start, 0, labels[j // step])  # 绘制标签
-            painter.rotate(360 / line_num)  # 旋转画笔，角度为6
-
-    def draw_clock_progress_across(self, painter, labels, idx, line_start, finsh_color=Qt.GlobalColor.green,
-                                   not_finsh_color=Qt.GlobalColor.black):
-        line_num = line_start // 3 + (len(labels) - line_start // 3 % len(labels))
-        size = 2  # 粗细
-        len_short = 12  # 短的长度
-        len_long = 24  # 长的长度
-        painter.setPen(QPen(finsh_color, size))  # 前部分，已完成的，颜色
-        step = line_num // len(labels)
-        for j in range(line_num):  # 遍历0到线条总数
-            if (j % step) != 0:  # 未到当前元素列表
-                lens = len_long if j % 2 == self.rhythm_flag else len_short  # 当前线条长或短
-                painter.drawLine(0, -line_start, 0, -line_start - lens)  # 绘制一根线
-            else:  # 当前到了要绘制labels的时候
-                if j // step == idx:  # 到了当前循环到的，设置颜色，之后的都是未完成
-                    painter.setPen(QPen(not_finsh_color, size))  # 设置画笔的颜色和宽度
-                painter.drawText(-5, -line_start, labels[j // step])  # 绘制标签, 略微偏移，|和字符占用空间不同
-            painter.rotate(360 / line_num)  # 旋转画笔，角度为6

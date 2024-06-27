@@ -13,14 +13,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.rhythm_flag = True
-        self.labels = ['AAA', 'B', 'C', 'D', 'E']
-        self.timer = QTimer()  # 创建一个定时器
-        self.timer.timeout.connect(self.update)  # 当定时器超时时，更新窗口
-        self.timer.start(500)  # 每秒触发一次定时器
+        # self.timer = QTimer()  # 创建一个定时器
+        # self.timer.timeout.connect(self.update)  # 当定时器超时时，更新窗口
+        # self.timer.start(500)  # 每秒触发一次定时器
         self.ui = UiMainWindow(self)
 
-    def paintEvent(self, event):
-        self.ui.paintEvent(event)
+    # def paintEvent(self, event):
+    #     self.ui.paintEvent(event)
 
 
 
