@@ -7,10 +7,11 @@
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QApplication, QWidget, \
     QPushButton, QVBoxLayout, QToolTip, QMessageBox, QLabel, QLineEdit, QProgressBar, QComboBox, QMenu, QStackedWidget
-from PyQt6.QtWidgets import QMenuBar
+from PyQt6.QtWidgets import QMenuBar,QFrame, QGraphicsDropShadowEffect
 from PyQt6.QtGui import QAction
 from PyQt6.QtGui import QPainter, QColor, QPen
 from PyQt6.QtCore import QTimer, QTime, Qt
+from css import css
 
 
 class CustomWidget(QWidget):
@@ -26,28 +27,29 @@ class CustomWidget(QWidget):
         _x = self.x = self.x if x is None else x  # 当前的
         _y = self.y = self.y if y is None else y
         if y is None:
-            self.y += 30  # 下次的默认值
+            self.y += 50  # 下次的默认值
         return _x, _y  # 返回当前的
 
-    def init_button(self, x=None, y=None):
+    def init_button(self, x=None, y=None, name=None, _css=css.get('QButton'), windows=None):
         x, y = self.get_default_xy(x, y)
         # 在这里创建和设置部件
-        _button = QPushButton('点击我退出', self)
-        _button.clicked.connect(QApplication.instance().quit)
-        _button.setToolTip('这是一个按钮部件，点击它会退出程序')
+        _button = QPushButton(name or '没有名称', windows or self)
+        _button.setToolTip('这是一个按钮部件')
         _button.move(x, y)
+        _button.setStyleSheet(_css)
         self.y += 30
         return _button
 
-    def init_label(self, x=None, y=None):
+    def init_label(self, x=None, y=None, _css=css.get('QLabel')):
         x, y = self.get_default_xy(x, y)
         # 在这里创建和设置部件
         _label = QLabel(self)
         _label.setText("这是一个标签")
         _label.move(x, y)
+        _label.setStyleSheet(_css)
         return _label
 
-    def init_box(self, x=None, y=None, value: list = None, name: str = ''):
+    def init_box(self, x=None, y=None, value: list = None, name: str = '', _css=css.get('QComboBox')):
         x, y = self.get_default_xy(x, y)
         _combo_box = QComboBox(self)
         _combo_box.move(x, y)
@@ -56,6 +58,7 @@ class CustomWidget(QWidget):
         # _combo_box.addItem('贷款')  # 必须先有
         # _combo_box.setCurrentText('贷款')
         selected_text = _combo_box.currentText()
+        _combo_box.setStyleSheet(_css)
         print(selected_text)
         return _combo_box
 
@@ -75,8 +78,14 @@ class CustomWidget(QWidget):
     def paintEvent(self, event):
         if self.draw_clock_flag:
             self.draw_clock()
+        line = QPainter(self)
+        pen = QPen(Qt.GlobalColor.gray, 2)
+        line.setPen(pen)
+        line.drawLine(150, 0, 150, 1080 * 0.7)
+        line.end()
 
     def draw_clock(self):
+        self.rhythm_flag = not self.rhythm_flag
         painter = QPainter(self)  # 创建一个画笔
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)  # 设置抗锯齿
         painter.translate(3840 * 0.4 / 2, 2160 * 0.4 / 2)  # 将坐标系的原点移动到窗口的中心

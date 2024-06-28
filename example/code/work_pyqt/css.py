@@ -7,15 +7,15 @@
 button_css = '''
 QPushButton {
     /* 设置按钮的背景颜色 */
-    background-color: #3D94F6;
+    background-color: transparent;
     /* 设置按钮的边框样式 */
-    border-style: outset;
+    border-style: none;
     /* 设置按钮的边框宽度 */
     border-width: 2px;
     /* 设置按钮的边框颜色 */
     border-color: beige;
     /* 设置按钮的字体颜色 */
-    color: white;
+    color: gray;
     /* 设置按钮的字体大小 */
     font: bold 14px;
     /* 设置按钮的最小宽度和最小高度 */
@@ -23,6 +23,8 @@ QPushButton {
     min-height: 2.5em;
     /* 设置按钮的边框圆角 */
     border-radius: 10px;
+    /* 字体粗细 */
+    font-weight: bold;
 }
 
 QPushButton:hover {
@@ -145,8 +147,8 @@ QComboBox {
     /* 设置下拉框的字体大小 */
     font: 14px;
     /* 设置下拉框的最小宽度和最小高度 */
-    min-width: 10em;
-    min-height: 2.5em;
+    min-width: 1em;
+    min-height: 0.5px;
     /* 设置下拉框的边框圆角 */
     border-radius: 5px;
     /* 设置下拉框的内边距 */

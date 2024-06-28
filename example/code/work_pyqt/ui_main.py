@@ -11,15 +11,15 @@ from PyQt6.QtGui import QPixmap, QPalette, QBrush
 class UiMainWindow(object):
     def __init__(self, main_window):
         self.main_window = main_window
-        self.window_width = 3840 * 0.4
-        self.window_height = 2160 * 0.4
+        self.window_width = 1920 * 0.7
+        self.window_height = 1080 * 0.7
         self.rhythm_flag = True
         self.stacked_widget = QStackedWidget()
         self.page1 = CustomWidget(False)
         self.page2 = CustomWidget(True)
         self.stacked_widget.addWidget(self.page1)
         self.stacked_widget.addWidget(self.page2)
-        # self.page = CustomWidget(True)
+        self.page = CustomWidget(False)
         self.stacked_widget.setCurrentIndex(0)
         self.main_window.setCentralWidget(self.stacked_widget)
         self.init_ui()
@@ -28,32 +28,37 @@ class UiMainWindow(object):
         # 窗口设置
         self.set_windows()
         # 设置风格
-        self.set_style()
+        # self.set_style()
         # 背景设置
         self.set_background()
         # 设置部件
         self.set_widget()
 
     def set_widget(self):
-        # 部件设置
-        self.but_check = QPushButton("Check", self.main_window)
-        self.but_execute = QPushButton("Execute", self.main_window)
-        self.but_execute.move(0, 40)
+        # 主界面部件
+        self.but_check = self.page.init_button(name='天天发财', windows=self.main_window)
+        self.but_execute = self.page.init_button(name='年年好运', windows=self.main_window)
         self.but_check.clicked.connect(self.go_to_page1)
         self.but_execute.clicked.connect(self.go_to_page2)
 
-        self.page1.init_button(370, 370)
-        self.page1.init_label()
-        self.page2.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-')
-        self.page2.draw_clock()
+        # 页面1按钮
+        self.page1.init_box(x=200, value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-')
+        self.page1.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-1')
+        self.page1.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-2')
+        self.page1.init_box(value=['A', 'B', 'C', 'D', 'E', 'F'], name='贷款-3')
+        self.page1.init_button(name='好的看看')
+        self.page1.init_button(name='好的再看看')
+
         # 菜单设置
-        self.page1.init_menu(name="File", sub_name_lst=['Open', 'Save'])
-        self.page2.init_menu(name="Edit", sub_name_lst=['Copy', 'Paste'])
+        # self.page1.init_menu(name="File", sub_name_lst=['Open', 'Save'])
+        # self.page2.init_menu(name="Edit", sub_name_lst=['Copy', 'Paste'])
 
     def go_to_page1(self):
         self.stacked_widget.setCurrentIndex(0)
 
     def go_to_page2(self):
+        # self.main_window.update()
+        self.page2.update()
         self.stacked_widget.setCurrentIndex(1)
 
     def set_windows(self):
@@ -67,7 +72,7 @@ class UiMainWindow(object):
 
     def set_background(self):
         # 创建一个QPixmap对象，加载图片
-        pixmap = QPixmap(r'3.png')
+        pixmap = QPixmap(r'2.png')
         pixmap = pixmap.scaled(self.main_window.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
         # 创建一个QPalette对象，设置背景图片
@@ -77,13 +82,12 @@ class UiMainWindow(object):
         # 将调色板应用到主窗口
         self.main_window.setPalette(palette)
 
+
     def set_center(self):
         qr = self.main_window.frameGeometry()  # 得到矩形窗口
         cp = self.main_window.screen().availableGeometry().center()  # 计算分辨率，然后计算中心点
         qr.moveCenter(cp)  # 计算窗口中心点位置
         self.main_window.move(qr.topLeft())  # 窗口左上角移动到计算出窗口左上角位置
-
-
 
     def set_style(self):
         self.main_window.setStyleSheet(
