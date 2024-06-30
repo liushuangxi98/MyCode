@@ -1,41 +1,33 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QFrame, QApplication, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QApplication, QTableView
+from PyQt6.QtGui import QStandardItemModel, QStandardItem, QColor
 import sys
 
 
-class Example(QWidget):
-
+class Table(QTableView):
     def __init__(self):
         super().__init__()
+        self.table_view([{'H1': 11, 'H2': 22, 'H3': 33},
+                         {'H1': 111, 'H2': 222, 'H3': 333}, {'H1': 1111, 'H2': 2222, 'H3': 3333}])
 
-        self.initUI()
-
-    def initUI(self):
-        self.setGeometry(0, 0, 1000, 500)
-        self.setWindowTitle('Window with a dividing line')
-
-        layout = QHBoxLayout()
-        self.setLayout(layout)
-
-        widget1 = QWidget(self)
-        widget1.setStyleSheet("background-color: white;")
-        widget1.setFixedWidth(200)
-        layout.addWidget(widget1)
-
-        line = QFrame(self)
-        line.setFrameShape(QFrame.Shape.VLine)
-        line.setFrameShadow(QFrame.Shadow.Sunken)
-        line.setFixedHeight(500)
-        shadow = QGraphicsDropShadowEffect(blurRadius=10, xOffset=5, yOffset=5)
-        line.setGraphicsEffect(shadow)
-        layout.addWidget(line)
-
-        widget2 = QWidget(self)
-        layout.addWidget(widget2)
-
-        self.show()
+    def table_view(self, data: list):
+        head_lst = ["Header 1", "Header 2", "Header 3"]
+        head_key = ["H1", "H2", "H3"]
+        model = QStandardItemModel(len(data), len(head_lst))
+        model.setHorizontalHeaderLabels(head_lst)
+        self.setEditTriggers(QTableView.EditTrigger.NoEditTriggers)
+        for i in range(len(data)):
+            line = data[i]
+            for j in range(len(head_lst)):
+                item = QStandardItem(str(line.get(head_key[j])))
+                if (i + j) % 2 == 0:
+                    item.setBackground(QColor(173, 216, 230))  # 浅蓝色
+                else:
+                    item.setBackground(QColor(240, 230, 140))  # 浅黄色
+                model.setItem(i, j, item)
+        self.setModel(model)
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec())
+app = QApplication(sys.argv)
+table = Table()
+table.show()
+sys.exit(app.exec())

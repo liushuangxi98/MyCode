@@ -7,11 +7,14 @@
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QApplication, QWidget, \
     QPushButton, QVBoxLayout, QToolTip, QMessageBox, QLabel, QLineEdit, QProgressBar, QComboBox, QMenu, QStackedWidget
-from PyQt6.QtWidgets import QMenuBar,QFrame, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QMenuBar, QFrame, QGraphicsDropShadowEffect, QTextEdit
 from PyQt6.QtGui import QAction
-from PyQt6.QtGui import QPainter, QColor, QPen
-from PyQt6.QtCore import QTimer, QTime, Qt
-from css import css
+from PyQt6.QtGui import QPainter, QColor, QPen, QFont
+from PyQt6.QtCore import QTimer, QTime, Qt, QRect
+from css import *
+from event_thread import *
+from PyQt6.QtWidgets import QApplication, QTableView
+from PyQt6.QtGui import QStandardItemModel, QStandardItem, QColor
 
 
 class CustomWidget(QWidget):
@@ -59,8 +62,22 @@ class CustomWidget(QWidget):
         # _combo_box.setCurrentText('贷款')
         selected_text = _combo_box.currentText()
         _combo_box.setStyleSheet(_css)
-        print(selected_text)
         return _combo_box
+
+    def init_test_edit(self, x=None, y=None, width=None, height=None, _css=css.get('QTextEdit'), windows=None):
+        x, y = self.get_default_xy(x, y)
+        _test_edit = QTextEdit(windows or self)
+        _test_edit.resize(width, height)
+        _test_edit.move(x, y)
+        # _test_edit.setStyleSheet(_css)
+        font = QFont("Comic Sans MS", 13)
+        _test_edit.setFont(font)
+        _test_edit.setStyleSheet("""
+            QTextEdit {
+                color: #ADD8E6;
+            }
+        """)
+        return _test_edit
 
     def init_menu(self, x=None, y=None, name: str = None, sub_name_lst: list = None):
         # x, y = self.get_default_xy(x, y)
@@ -88,20 +105,22 @@ class CustomWidget(QWidget):
         self.rhythm_flag = not self.rhythm_flag
         painter = QPainter(self)  # 创建一个画笔
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)  # 设置抗锯齿
-        painter.translate(3840 * 0.4 / 2, 2160 * 0.4 / 2)  # 将坐标系的原点移动到窗口的中心
-        self.draw_clock_progress(painter, self.labels, 1, 360)  # 绘制时钟的表面
-        self.draw_clock_progress_across(painter, self.labels, 2, 330, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 3, 300, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 2, 270, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 4, 240, Qt.GlobalColor.green)  # 绘制时钟的表面
-        self.draw_clock_progress(painter, self.labels, 3, 210, Qt.GlobalColor.green)  # 绘制时钟的表面
+        x_center, y_center = 1920 * 0.7 // 2 - 130, 1080 * 0.7 // 2
+        painter.translate(x_center, y_center)  # 将坐标系的原点移动到窗口的中心
+        self.draw_clock_progress(painter, self.labels, 1, 330, Qt.GlobalColor.darkCyan)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 2, 280, Qt.GlobalColor.darkYellow)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 3, 230, Qt.GlobalColor.magenta)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 2, 180, Qt.GlobalColor.darkGreen)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 4, 130, Qt.GlobalColor.darkBlue)  # 绘制时钟的表面
+        self.draw_clock_progress(painter, self.labels, 3, 80, Qt.GlobalColor.cyan)  # 绘制时钟的表面
+        self.draw_ring(painter, 100, 0.4533)
 
     def draw_clock_progress(self, painter, labels, idx, line_start, finsh_color=Qt.GlobalColor.green,
-                            not_finsh_color=Qt.GlobalColor.white):
+                            not_finsh_color=Qt.GlobalColor.darkGray):
         line_num = line_start // 3 + (len(labels) - line_start // 3 % len(labels))
         size = 2  # 粗细
-        len_short = 12  # 短的长度
-        len_long = 24  # 长的长度
+        len_short = 20  # 短的长度
+        len_long = 40  # 长的长度
         painter.setPen(QPen(finsh_color, size))  # 前部分，已完成的，颜色
         step = line_num // len(labels)
         for j in range(line_num):  # 遍历0到59
@@ -131,3 +150,78 @@ class CustomWidget(QWidget):
                     painter.setPen(QPen(not_finsh_color, size))  # 设置画笔的颜色和宽度
                 painter.drawText(-5, -line_start, labels[j // step])  # 绘制标签, 略微偏移，|和字符占用空间不同
             painter.rotate(360 / line_num)  # 旋转画笔，角度为6
+
+    def draw_ring(self, painter, side, percent):
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        # 确保矩形的宽度和高度相等，以便绘制圆形
+        rect = QRect(-side / 2, -side / 2, side, side)
+
+        # 绘制未完成部分（）
+        painter.setPen(QPen(QColor('darkGray'), 20, Qt.PenStyle.SolidLine))
+        painter.drawArc(rect, 0, 360 * 16)
+
+        # 绘制已完成部分（）
+        painter.setPen(QPen(QColor(173, 216, 230), 20, Qt.PenStyle.SolidLine))
+        painter.drawArc(rect, 90 * 16, -percent * 360 * 16)
+
+        # 在圆环中央添加数字显示进度
+        font = painter.font()
+        font.setPointSize(18)  # 设置字体大小
+        painter.setFont(font)
+        painter.setPen(QColor('black'))  # 设置字体颜色
+        textRect = QRect(-side / 2, -side / 2, side, side)  # 创建一个位于圆环中心的矩形区域
+        progressText = "{}%".format(round(percent * 100, 1))  # 创建进度百分比的文本
+        # 在指定的矩形区域内绘制文本，文本居中对齐
+        painter.drawText(textRect, Qt.AlignmentFlag.AlignCenter, progressText)
+
+    def draw_table_view(self, data: list):
+        head_lst = ["Header 1", "Header 2", "Header 3"]
+        head_key = ["H1", "H2", "H3"]
+        model = QStandardItemModel(len(data), len(head_lst))
+        model.setHorizontalHeaderLabels(head_lst)
+        self.table_view = QTableView(self)
+        self.table_view.move(159, 400)
+        self.table_view.resize(1150, 300)  # 设置QTableView的宽度为800，高度为600
+        self.table_view.setStyleSheet("""
+            /* 设置表格的网格线颜色、背景色和交替背景色 */
+            QTableView {
+                gridline-color: black;
+                background-color: rgb(108, 108, 108);
+                alternate-background-color: rgb(64, 64, 64);
+            }
+            /* 设置单元格的内边距 */
+            QTableView::item {
+                padding: 5px;
+            }
+            /* 设置表头的背景色 */
+            QHeaderView::section {
+                background-color: lightgreen;
+            }
+            /* 设置垂直滚动条的背景色和滑块颜色 */
+            QScrollBar:vertical {
+                background: rgb(188, 224, 235);
+            }
+            QScrollBar::handle:vertical {
+                background: rgb(71, 153, 176);
+            }
+            /* 设置水平滚动条的背景色和滑块颜色 */
+            QScrollBar:horizontal {
+                background: rgb(188, 224, 235);
+            }
+            QScrollBar::handle:horizontal {
+                background: rgb(71, 153, 176);
+            }
+        """)
+
+        self.table_view.setEditTriggers(QTableView.EditTrigger.NoEditTriggers)  # 不可编辑
+        for i in range(len(data)):
+            line = data[i]
+            for j in range(len(head_lst)):
+                item = QStandardItem(str(line.get(head_key[j])))
+                if (i + j) % 2 == 0:
+                    item.setBackground(QColor(173, 216, 230))  # 浅蓝色
+                else:
+                    item.setBackground(QColor(240, 230, 140))  # 浅黄色
+                model.setItem(i, j, item)
+        self.table_view.setModel(model)
