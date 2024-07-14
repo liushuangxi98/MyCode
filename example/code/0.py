@@ -1,33 +1,33 @@
-from PyQt6.QtWidgets import QApplication, QTableView
-from PyQt6.QtGui import QStandardItemModel, QStandardItem, QColor
+from PyQt6.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
 import sys
-
-
-class Table(QTableView):
+class Example(QWidget):
     def __init__(self):
         super().__init__()
-        self.table_view([{'H1': 11, 'H2': 22, 'H3': 33},
-                         {'H1': 111, 'H2': 222, 'H3': 333}, {'H1': 1111, 'H2': 2222, 'H3': 3333}])
+        self.initUI()
 
-    def table_view(self, data: list):
-        head_lst = ["Header 1", "Header 2", "Header 3"]
-        head_key = ["H1", "H2", "H3"]
-        model = QStandardItemModel(len(data), len(head_lst))
-        model.setHorizontalHeaderLabels(head_lst)
-        self.setEditTriggers(QTableView.EditTrigger.NoEditTriggers)
-        for i in range(len(data)):
-            line = data[i]
-            for j in range(len(head_lst)):
-                item = QStandardItem(str(line.get(head_key[j])))
-                if (i + j) % 2 == 0:
-                    item.setBackground(QColor(173, 216, 230))  # 浅蓝色
-                else:
-                    item.setBackground(QColor(240, 230, 140))  # 浅黄色
-                model.setItem(i, j, item)
-        self.setModel(model)
+    def initUI(self):
+        grid = QGridLayout()
+        self.setLayout(grid)
 
+        names = ['Cls', 'Bck', '', 'Close',
+                 '7', '8', '9', '/',
+                 '4', '5', '6', '*',
+                 '1', '2', '3', '-',
+                 '0', '.', '=', '+']
 
-app = QApplication(sys.argv)
-table = Table()
-table.show()
-sys.exit(app.exec())
+        positions = [(i,j) for i in range(5) for j in range(4)]
+
+        for position, name in zip(positions, names):
+            if name == '':
+                continue
+            button = QPushButton(name)
+            grid.addWidget(button, *position)
+
+        self.move(300, 150)
+        self.setWindowTitle('Grid Layout Example')
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Example()
+    ex.show()
+    sys.exit(app.exec())

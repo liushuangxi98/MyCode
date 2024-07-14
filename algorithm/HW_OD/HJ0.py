@@ -1,25 +1,16 @@
-# @Time   :2018/5/21
-# @Author :Yinxing
+def twoSum(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: List[int]
+    """
+    hash_map = {}
 
-def tone_merge(tone):
-    n = len(tone)
-    if n <= 1: return 0
-    if n == 2: return sum(tone)  # 长度为2时，就是这两堆石头的和
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in hash_map:
+            return [hash_map[complement], i]
+        hash_map[num] = i
 
-    dp = [[float('inf')] * n for _ in range(n)]  # 初始化dp
-    for i in range(n): dp[i][i] = 0
-    sm = [tone[0]]  # 记录 列表从0 到 n 的累加和
-    for i in range(1, n): sm.append(sm[i - 1] + tone[i])  # 累加求和
-
-    for gap in range(1, n):  # i 到 j 的间隔
-        for i in range(n - gap):
-            j = i + gap  # 确定本次  i--j
-            tmp = sm[j] - [0, sm[i - 1]][i > 0]  # 获取第 i 到第 j 堆石子的总数量
-            for k in range(i, j):  # 选择i 到 j 的最优解
-                dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + tmp)
-
-    return dp[0][n - 1]
-
-
-tone = [186, 64, 35, 32, 103]
-print(tone_merge(tone))
+a = twoSum([3,2,4], 6)
+print(a)

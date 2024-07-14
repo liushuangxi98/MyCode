@@ -28,6 +28,7 @@ for num in range(1, 1 + len(main)):
         (p1, v1), (p2, v2), (p3, v3) = main[num - 1]
         # 不买这个物品（买前一个物品） 和 不买前一个物品买这个物品的最大值
         if mon >= p1 + p2 + p3:  # 这里必须是dp[num][mon]不能是dp[num-1][mon]，因为这个值是在每个if更新的
+            # 当前的钱够买p1+p2+p3时，退回到dp的mon-p1-p2-p3时的最大价值
             dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p2 - p3] + v1 + v2 + v3)
         if mon >= p1 + p3:
             dp[num][mon] = max(dp[num][mon], dp[num - 1][mon - p1 - p3] + v1 + v3)
