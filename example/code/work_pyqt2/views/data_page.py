@@ -4,9 +4,12 @@
 # @Author  : 刘双喜
 # @File    : data_page.py
 # @Description : 添加描述
-from PyQt6.QtGui import QColor
+# views/data_page.py
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel,
-                             QTableWidget, QTableWidgetItem, QHeaderView)
+                             QTableWidget, QTableWidgetItem, QHeaderView,
+                             QHBoxLayout, QGroupBox)
+from PyQt6.QtGui import QColor
+from services.database import Database
 
 
 class DataPage(QWidget):
@@ -22,17 +25,44 @@ class DataPage(QWidget):
         self.title = QLabel("Data Management")
         self.title.setProperty("cssClass", "pageTitle")
 
+        # 测试用例信息面板
+        self.create_test_info_box()
+
         # 数据表格
         self.table = QTableWidget()
         self.table.setObjectName("dataTable")
         self.table.verticalHeader().setVisible(False)
 
-        # 初始化表格
         self.init_table()
 
         layout.addWidget(self.title)
+        layout.addWidget(self.test_info_box)
         layout.addWidget(self.table)
         self.setLayout(layout)
+
+    def create_test_info_box(self):
+        """创建测试信息展示区"""
+        test_info = Database.get_test_info()
+
+        self.test_info_box = QGroupBox("当前测试状态")
+        box_layout = QHBoxLayout()
+
+        # 测试用例ID
+        self.lbl_case_id = QLabel(f"用例ID: {test_info['TestCaseId']}")
+        self.lbl_case_id.setObjectName("testCaseLabel")
+
+        # 测试结果
+        self.lbl_result = QLabel(f"结果: {test_info['Result']}")
+        self.lbl_result.setObjectName("testResultLabel")
+
+        # 执行时间
+        self.lbl_time = QLabel(f"执行时间: {test_info['ExecutionTime']}")
+        self.lbl_time.setObjectName("testTimeLabel")
+
+        box_layout.addWidget(self.lbl_case_id)
+        box_layout.addWidget(self.lbl_result)
+        box_layout.addWidget(self.lbl_time)
+        self.test_info_box.setLayout(box_layout)
 
     def init_table(self):
         """初始化表格数据和样式"""
@@ -40,11 +70,9 @@ class DataPage(QWidget):
         self.table.setColumnCount(len(headers))
         self.table.setHorizontalHeaderLabels(headers)
 
-        # 设置列宽自适应
         header = self.table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
-        # 示例数据
         self.populate_sample_data()
 
     def populate_sample_data(self):
